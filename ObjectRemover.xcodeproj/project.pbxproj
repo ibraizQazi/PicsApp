@@ -7,6 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C205FC05295990D1009DCD97 /* qr-code-loader.json in Resources */ = {isa = PBXBuildFile; fileRef = C205FC04295990D1009DCD97 /* qr-code-loader.json */; };
+		C205FC0829599333009DCD97 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C205FC0729599333009DCD97 /* HomeView.swift */; };
+		C205FC0A2959F571009DCD97 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C205FC092959F571009DCD97 /* PhotoPicker.swift */; };
+		C205FC0D295B31B4009DCD97 /* PhotoAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C205FC0C295B31B4009DCD97 /* PhotoAccessView.swift */; };
+		C205FC2C296487C3009DCD97 /* Gilroy-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC18296487C1009DCD97 /* Gilroy-ThinItalic.ttf */; };
+		C205FC2D296487C3009DCD97 /* Gilroy-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC19296487C1009DCD97 /* Gilroy-Light.ttf */; };
+		C205FC2E296487C3009DCD97 /* Gilroy-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC1A296487C1009DCD97 /* Gilroy-BlackItalic.ttf */; };
+		C205FC2F296487C3009DCD97 /* Gilroy-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC1B296487C1009DCD97 /* Gilroy-MediumItalic.ttf */; };
+		C205FC30296487C3009DCD97 /* Gilroy-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC1C296487C1009DCD97 /* Gilroy-ExtraBoldItalic.ttf */; };
+		C205FC31296487C3009DCD97 /* Gilroy-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC1D296487C2009DCD97 /* Gilroy-Medium.ttf */; };
+		C205FC32296487C3009DCD97 /* Gilroy-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC1E296487C2009DCD97 /* Gilroy-HeavyItalic.ttf */; };
+		C205FC33296487C3009DCD97 /* Gilroy-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC1F296487C2009DCD97 /* Gilroy-BoldItalic.ttf */; };
+		C205FC34296487C3009DCD97 /* Gilroy-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC20296487C2009DCD97 /* Gilroy-Black.ttf */; };
+		C205FC35296487C3009DCD97 /* Gilroy-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC21296487C2009DCD97 /* Gilroy-Bold.ttf */; };
+		C205FC36296487C3009DCD97 /* Gilroy-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC22296487C2009DCD97 /* Gilroy-Heavy.ttf */; };
+		C205FC37296487C3009DCD97 /* Gilroy-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC23296487C2009DCD97 /* Gilroy-Regular.ttf */; };
+		C205FC38296487C3009DCD97 /* Gilroy-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC24296487C2009DCD97 /* Gilroy-SemiBold.ttf */; };
+		C205FC39296487C3009DCD97 /* Gilroy-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC25296487C2009DCD97 /* Gilroy-RegularItalic.ttf */; };
+		C205FC3A296487C3009DCD97 /* Gilroy-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC26296487C2009DCD97 /* Gilroy-SemiBoldItalic.ttf */; };
+		C205FC3B296487C3009DCD97 /* Gilroy-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC27296487C2009DCD97 /* Gilroy-Thin.ttf */; };
+		C205FC3C296487C3009DCD97 /* Gilroy-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC28296487C3009DCD97 /* Gilroy-UltraLight.ttf */; };
+		C205FC3D296487C3009DCD97 /* Gilroy-UltraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC29296487C3009DCD97 /* Gilroy-UltraLightItalic.ttf */; };
+		C205FC3E296487C3009DCD97 /* Gilroy-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC2A296487C3009DCD97 /* Gilroy-ExtraBold.ttf */; };
+		C205FC3F296487C3009DCD97 /* Gilroy-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C205FC2B296487C3009DCD97 /* Gilroy-LightItalic.ttf */; };
+		C205FC4329656E99009DCD97 /* PhotosPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = C205FC4229656E99009DCD97 /* PhotosPermission.swift */; };
+		C241B84D2966224D004FD32D /* PhotoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C241B84C2966224D004FD32D /* PhotoItem.swift */; };
+		C285E550295987AB00C58BBC /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C285E54F295987AB00C58BBC /* SplashScreen.swift */; };
 		C2BBF498294B756D00960C0A /* ObjectRemoverApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBF497294B756D00960C0A /* ObjectRemoverApp.swift */; };
 		C2BBF49A294B756D00960C0A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBF499294B756D00960C0A /* ContentView.swift */; };
 		C2BBF49C294B756D00960C0A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2BBF49B294B756D00960C0A /* Assets.xcassets */; };
@@ -14,6 +41,8 @@
 		C2BBF4A9294B756D00960C0A /* ObjectRemoverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBF4A8294B756D00960C0A /* ObjectRemoverTests.swift */; };
 		C2BBF4B3294B756D00960C0A /* ObjectRemoverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBF4B2294B756D00960C0A /* ObjectRemoverUITests.swift */; };
 		C2BBF4B5294B756D00960C0A /* ObjectRemoverUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBF4B4294B756D00960C0A /* ObjectRemoverUITestsLaunchTests.swift */; };
+		C2BBF4C3294B771300960C0A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C2BBF4C2294B771300960C0A /* Lottie */; };
+		C2BBF4C7294B789900960C0A /* LottieLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BBF4C6294B789900960C0A /* LottieLoaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +63,34 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C205FC04295990D1009DCD97 /* qr-code-loader.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "qr-code-loader.json"; sourceTree = "<group>"; };
+		C205FC0729599333009DCD97 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		C205FC092959F571009DCD97 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
+		C205FC0C295B31B4009DCD97 /* PhotoAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAccessView.swift; sourceTree = "<group>"; };
+		C205FC18296487C1009DCD97 /* Gilroy-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-ThinItalic.ttf"; sourceTree = "<group>"; };
+		C205FC19296487C1009DCD97 /* Gilroy-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-Light.ttf"; sourceTree = "<group>"; };
+		C205FC1A296487C1009DCD97 /* Gilroy-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-BlackItalic.ttf"; sourceTree = "<group>"; };
+		C205FC1B296487C1009DCD97 /* Gilroy-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-MediumItalic.ttf"; sourceTree = "<group>"; };
+		C205FC1C296487C1009DCD97 /* Gilroy-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		C205FC1D296487C2009DCD97 /* Gilroy-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-Medium.ttf"; sourceTree = "<group>"; };
+		C205FC1E296487C2009DCD97 /* Gilroy-HeavyItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-HeavyItalic.ttf"; sourceTree = "<group>"; };
+		C205FC1F296487C2009DCD97 /* Gilroy-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-BoldItalic.ttf"; sourceTree = "<group>"; };
+		C205FC20296487C2009DCD97 /* Gilroy-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-Black.ttf"; sourceTree = "<group>"; };
+		C205FC21296487C2009DCD97 /* Gilroy-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-Bold.ttf"; sourceTree = "<group>"; };
+		C205FC22296487C2009DCD97 /* Gilroy-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-Heavy.ttf"; sourceTree = "<group>"; };
+		C205FC23296487C2009DCD97 /* Gilroy-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-Regular.ttf"; sourceTree = "<group>"; };
+		C205FC24296487C2009DCD97 /* Gilroy-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-SemiBold.ttf"; sourceTree = "<group>"; };
+		C205FC25296487C2009DCD97 /* Gilroy-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-RegularItalic.ttf"; sourceTree = "<group>"; };
+		C205FC26296487C2009DCD97 /* Gilroy-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		C205FC27296487C2009DCD97 /* Gilroy-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-Thin.ttf"; sourceTree = "<group>"; };
+		C205FC28296487C3009DCD97 /* Gilroy-UltraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-UltraLight.ttf"; sourceTree = "<group>"; };
+		C205FC29296487C3009DCD97 /* Gilroy-UltraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-UltraLightItalic.ttf"; sourceTree = "<group>"; };
+		C205FC2A296487C3009DCD97 /* Gilroy-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-ExtraBold.ttf"; sourceTree = "<group>"; };
+		C205FC2B296487C3009DCD97 /* Gilroy-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gilroy-LightItalic.ttf"; sourceTree = "<group>"; };
+		C205FC4129648850009DCD97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C205FC4229656E99009DCD97 /* PhotosPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosPermission.swift; sourceTree = "<group>"; };
+		C241B84C2966224D004FD32D /* PhotoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoItem.swift; sourceTree = "<group>"; };
+		C285E54F295987AB00C58BBC /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		C2BBF494294B756D00960C0A /* ObjectRemover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectRemover.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2BBF497294B756D00960C0A /* ObjectRemoverApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectRemoverApp.swift; sourceTree = "<group>"; };
 		C2BBF499294B756D00960C0A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +101,7 @@
 		C2BBF4AE294B756D00960C0A /* ObjectRemoverUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ObjectRemoverUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2BBF4B2294B756D00960C0A /* ObjectRemoverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectRemoverUITests.swift; sourceTree = "<group>"; };
 		C2BBF4B4294B756D00960C0A /* ObjectRemoverUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectRemoverUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C2BBF4C6294B789900960C0A /* LottieLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieLoaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2BBF4C3294B771300960C0A /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +130,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C205FC0629599316009DCD97 /* HomeScreen */ = {
+			isa = PBXGroup;
+			children = (
+				C205FC0729599333009DCD97 /* HomeView.swift */,
+				C205FC092959F571009DCD97 /* PhotoPicker.swift */,
+				C205FC4229656E99009DCD97 /* PhotosPermission.swift */,
+				C241B84C2966224D004FD32D /* PhotoItem.swift */,
+			);
+			path = HomeScreen;
+			sourceTree = "<group>";
+		};
+		C205FC0B295B318C009DCD97 /* CommonUI */ = {
+			isa = PBXGroup;
+			children = (
+				C205FC0C295B31B4009DCD97 /* PhotoAccessView.swift */,
+			);
+			path = CommonUI;
+			sourceTree = "<group>";
+		};
+		C205FC40296487CA009DCD97 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				C205FC20296487C2009DCD97 /* Gilroy-Black.ttf */,
+				C205FC1A296487C1009DCD97 /* Gilroy-BlackItalic.ttf */,
+				C205FC21296487C2009DCD97 /* Gilroy-Bold.ttf */,
+				C205FC1F296487C2009DCD97 /* Gilroy-BoldItalic.ttf */,
+				C205FC2A296487C3009DCD97 /* Gilroy-ExtraBold.ttf */,
+				C205FC1C296487C1009DCD97 /* Gilroy-ExtraBoldItalic.ttf */,
+				C205FC22296487C2009DCD97 /* Gilroy-Heavy.ttf */,
+				C205FC1E296487C2009DCD97 /* Gilroy-HeavyItalic.ttf */,
+				C205FC19296487C1009DCD97 /* Gilroy-Light.ttf */,
+				C205FC2B296487C3009DCD97 /* Gilroy-LightItalic.ttf */,
+				C205FC1D296487C2009DCD97 /* Gilroy-Medium.ttf */,
+				C205FC1B296487C1009DCD97 /* Gilroy-MediumItalic.ttf */,
+				C205FC23296487C2009DCD97 /* Gilroy-Regular.ttf */,
+				C205FC25296487C2009DCD97 /* Gilroy-RegularItalic.ttf */,
+				C205FC24296487C2009DCD97 /* Gilroy-SemiBold.ttf */,
+				C205FC26296487C2009DCD97 /* Gilroy-SemiBoldItalic.ttf */,
+				C205FC27296487C2009DCD97 /* Gilroy-Thin.ttf */,
+				C205FC18296487C1009DCD97 /* Gilroy-ThinItalic.ttf */,
+				C205FC28296487C3009DCD97 /* Gilroy-UltraLight.ttf */,
+				C205FC29296487C3009DCD97 /* Gilroy-UltraLightItalic.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		C2BBF48B294B756D00960C0A = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +199,12 @@
 		C2BBF496294B756D00960C0A /* ObjectRemover */ = {
 			isa = PBXGroup;
 			children = (
+				C205FC4129648850009DCD97 /* Info.plist */,
+				C205FC40296487CA009DCD97 /* fonts */,
+				C205FC0B295B318C009DCD97 /* CommonUI */,
+				C205FC0629599316009DCD97 /* HomeScreen */,
+				C2BBF4C5294B787200960C0A /* LottieViews */,
+				C2BBF4C4294B777B00960C0A /* SplashScreen */,
 				C2BBF497294B756D00960C0A /* ObjectRemoverApp.swift */,
 				C2BBF499294B756D00960C0A /* ContentView.swift */,
 				C2BBF49B294B756D00960C0A /* Assets.xcassets */,
@@ -127,6 +238,23 @@
 			path = ObjectRemoverUITests;
 			sourceTree = "<group>";
 		};
+		C2BBF4C4294B777B00960C0A /* SplashScreen */ = {
+			isa = PBXGroup;
+			children = (
+				C285E54F295987AB00C58BBC /* SplashScreen.swift */,
+			);
+			path = SplashScreen;
+			sourceTree = "<group>";
+		};
+		C2BBF4C5294B787200960C0A /* LottieViews */ = {
+			isa = PBXGroup;
+			children = (
+				C205FC04295990D1009DCD97 /* qr-code-loader.json */,
+				C2BBF4C6294B789900960C0A /* LottieLoaderView.swift */,
+			);
+			path = LottieViews;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +271,9 @@
 			dependencies = (
 			);
 			name = ObjectRemover;
+			packageProductDependencies = (
+				C2BBF4C2294B771300960C0A /* Lottie */,
+			);
 			productName = ObjectRemover;
 			productReference = C2BBF494294B756D00960C0A /* ObjectRemover.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +346,9 @@
 				Base,
 			);
 			mainGroup = C2BBF48B294B756D00960C0A;
+			packageReferences = (
+				C2BBF4C1294B771300960C0A /* XCRemoteSwiftPackageReference "lottie-ios" */,
+			);
 			productRefGroup = C2BBF495294B756D00960C0A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -231,7 +365,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C205FC3F296487C3009DCD97 /* Gilroy-LightItalic.ttf in Resources */,
+				C205FC3C296487C3009DCD97 /* Gilroy-UltraLight.ttf in Resources */,
+				C205FC34296487C3009DCD97 /* Gilroy-Black.ttf in Resources */,
+				C205FC38296487C3009DCD97 /* Gilroy-SemiBold.ttf in Resources */,
+				C205FC39296487C3009DCD97 /* Gilroy-RegularItalic.ttf in Resources */,
 				C2BBF49F294B756D00960C0A /* Preview Assets.xcassets in Resources */,
+				C205FC35296487C3009DCD97 /* Gilroy-Bold.ttf in Resources */,
+				C205FC2C296487C3009DCD97 /* Gilroy-ThinItalic.ttf in Resources */,
+				C205FC2F296487C3009DCD97 /* Gilroy-MediumItalic.ttf in Resources */,
+				C205FC3A296487C3009DCD97 /* Gilroy-SemiBoldItalic.ttf in Resources */,
+				C205FC05295990D1009DCD97 /* qr-code-loader.json in Resources */,
+				C205FC36296487C3009DCD97 /* Gilroy-Heavy.ttf in Resources */,
+				C205FC33296487C3009DCD97 /* Gilroy-BoldItalic.ttf in Resources */,
+				C205FC3B296487C3009DCD97 /* Gilroy-Thin.ttf in Resources */,
+				C205FC32296487C3009DCD97 /* Gilroy-HeavyItalic.ttf in Resources */,
+				C205FC30296487C3009DCD97 /* Gilroy-ExtraBoldItalic.ttf in Resources */,
+				C205FC37296487C3009DCD97 /* Gilroy-Regular.ttf in Resources */,
+				C205FC2D296487C3009DCD97 /* Gilroy-Light.ttf in Resources */,
+				C205FC3D296487C3009DCD97 /* Gilroy-UltraLightItalic.ttf in Resources */,
+				C205FC3E296487C3009DCD97 /* Gilroy-ExtraBold.ttf in Resources */,
+				C205FC2E296487C3009DCD97 /* Gilroy-BlackItalic.ttf in Resources */,
+				C205FC31296487C3009DCD97 /* Gilroy-Medium.ttf in Resources */,
 				C2BBF49C294B756D00960C0A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,8 +412,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2BBF4C7294B789900960C0A /* LottieLoaderView.swift in Sources */,
+				C205FC0D295B31B4009DCD97 /* PhotoAccessView.swift in Sources */,
+				C285E550295987AB00C58BBC /* SplashScreen.swift in Sources */,
+				C205FC0A2959F571009DCD97 /* PhotoPicker.swift in Sources */,
 				C2BBF49A294B756D00960C0A /* ContentView.swift in Sources */,
+				C205FC0829599333009DCD97 /* HomeView.swift in Sources */,
 				C2BBF498294B756D00960C0A /* ObjectRemoverApp.swift in Sources */,
+				C205FC4329656E99009DCD97 /* PhotosPermission.swift in Sources */,
+				C241B84D2966224D004FD32D /* PhotoItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,8 +579,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ObjectRemover/Preview Content\"";
+				DEVELOPMENT_TEAM = CL32423R27;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ObjectRemover/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = 1.0;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -429,7 +594,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fourguys.ObjectRemover;
+				PRODUCT_BUNDLE_IDENTIFIER = com.triniumai.or;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -445,8 +610,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ObjectRemover/Preview Content\"";
+				DEVELOPMENT_TEAM = CL32423R27;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ObjectRemover/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = 1.0;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -457,7 +625,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fourguys.ObjectRemover;
+				PRODUCT_BUNDLE_IDENTIFIER = com.triniumai.or;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -577,6 +745,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C2BBF4C1294B771300960C0A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C2BBF4C2294B771300960C0A /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C2BBF4C1294B771300960C0A /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C2BBF48C294B756D00960C0A /* Project object */;
 }

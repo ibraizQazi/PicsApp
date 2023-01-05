@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        LottieLoaderView(lottieFile: "qr-code-loader")
+            .frame(width: 300, height: 400)
     }
 }
 

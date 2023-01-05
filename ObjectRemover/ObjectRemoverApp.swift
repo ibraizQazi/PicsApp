@@ -11,7 +11,9 @@ import SwiftUI
 struct ObjectRemoverApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                SplashScreen()
+            }
         }
     }
 }
