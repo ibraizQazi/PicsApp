@@ -16,30 +16,38 @@ struct PhotoAccessView: View {
             Image("permission-asset")
                 .overlay(
                     VStack {
-                        Text("Enable Access to All Photos")
-                            .font(.custom("Gilroy-Black", size: 22))
-                            .foregroundColor(.black)
-                        
-                        Text("Allow All Photos access in settings to begin editing your photos")
-                            .multilineTextAlignment(.center)
-                            .font(.custom("Gilroy-Regular", size: 16))
-                            .foregroundColor(.black)
+                        VStack {
+                            Text("Enable Access to All Photos")
+                                .font(.custom("Gilroy-Bold", size: 22))
+                                .foregroundColor(.black)
+                                .frame(height: 27)
+                                
+                            
+                            Text("Allow All Photos access in settings to \n begin editing your photos")
+                                .multilineTextAlignment(.center)
+                                .font(.custom("Gilroy-Medium", size: 16))
+                                .lineSpacing(0)
+                                .foregroundColor(Color(red: 73/255, green: 74/255, blue: 80/255))
+                                
+                        }.padding(.bottom, 24)
                         
                         Button(action: openPermissions) {
                             Text("Give Access")
-                                .font(.custom("Gilroy-Regular", size: 17))
+                                .font(.custom("Gilroy-SemiBold", size: 17))
                         }
-                        .padding()
+                        
                         .frame(width: 283, height: 45)
                         .background(.black)
                         .foregroundColor(.white)
                         .cornerRadius(16)
                     }
-                    .padding()
+                        .padding(.bottom, 44)
                     , alignment: .bottom
+                    
                 )
         }
-        .cornerRadius(15)
+        .frame(height: 450)
+        .cornerRadius(24)
 
     }
 }
