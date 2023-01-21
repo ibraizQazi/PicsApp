@@ -44,7 +44,6 @@ struct ProgressDialogView: View {
                     .font(.custom("Gilroy-SemiBold", size: 16))
                     .foregroundColor(.black)
             }
-            
             .frame(width: 283, height: 45)
             .background(
                 LinearGradient(

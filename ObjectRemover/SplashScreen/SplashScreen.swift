@@ -15,7 +15,8 @@ struct SplashScreen: View {
         NavigationView {
             ZStack {
                 if self.isActive {
-                    HomeView()
+//                    HomeView()
+                    EditorScreenView()
                     //                EditorView(photo: .constant(Photo(image: UIImage(named: "permission-asset")!)))
                 } else {
                     VStack {
