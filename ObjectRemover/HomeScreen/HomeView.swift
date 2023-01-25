@@ -16,11 +16,13 @@ struct HomeView: View {
     @State private var showPhotoSheet = false
     @State private var showPreviewSheet = false
     @State private var image: UIImage? = nil
-    @State private var isPermissionGiven = true
+    @State private var isPermissionGiven = false
+    @State private var isFullAccessGiven = false
+    @State private var isDenied = false
     
     @State private var settingsDetent = PresentationDetent.medium
 
-    private let columns: [GridItem] = [GridItem(.fixed(110)), GridItem(.fixed(110)), GridItem(.fixed(110))]
+    private let columns: [GridItem] = [GridItem(.fixed(110), spacing: 4.5), GridItem(.fixed(110), spacing: 4.5), GridItem(.fixed(110), spacing: 4.5)]
     
     var body: some View {
         
@@ -28,187 +30,130 @@ struct HomeView: View {
             
             if isPermissionGiven {
                 
-                if photos.count > 1 {
-                    GeometryReader { geo in
-                        ZStack(alignment: .bottom) {
-                            ScrollView {
-                                LazyVGrid(columns: columns) {
-                                    ForEach(0..<photos.count, id: \.self) { index in
-                                        
-                                        let photo = photos[index]
-                                        
-                                        if index == 0 {
-                                            VStack {
-                                                
-                                                Image("ic-import")
-                                                    .resizable()
-                                                    .scaledToFill()
-                                                    .frame(minWidth: 22, maxWidth: 22,minHeight: 22 ,maxHeight: 22)
-                                                    .padding(.bottom, 17)
-                                                
-                                                
-                                                Text("IMPORT PHOTO")
-                                                    .font(.custom("Gilroy_Regular", size: 12))
-                                                    .foregroundColor(.white)
-                                            }
-                                            .frame(minWidth: 110, maxWidth: 110,minHeight: 110 ,maxHeight: 110)
-                                            .background(Color(red: 18/255, green: 20/255, blue: 28/255))
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 10)
-                                                    .stroke(.white, lineWidth: 2)
-                                            )
-                                            .cornerRadius(10.0)
-                                            .padding()
-                                            .onTapGesture {
-                                                if index == 0 {
-                                                    print("open photo sheet")
-                                                    showPhotoSheet.toggle()
-                                                } else {
-                                                    showPreviewSheet.toggle()
-                                                    selectedPhoto = photo.image
-                                                }
-                                            }
-                                            
-                                        } else  {
-                                            
-                                            photo.image
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(minWidth: 110, maxWidth: 110,minHeight: 110 ,maxHeight: 110)
-                                                .cornerRadius(10)
-                                                .onTapGesture {
-                                                    if index == 0 {
-                                                        print("open photo sheet")
-                                                        showPhotoSheet.toggle()
-                                                    } else {
-                                                        print("open preview")
-                                                        showPreviewSheet.toggle()
-                                                        selectedPhoto = photo.image
-                                                    }
-                                                }
-                                            
-                                        }
-                                        
-                                    }
-                                }
-                                .padding(.horizontal, 12)
-                                .frame(width: geo.size.width, height: geo.size.height, alignment: .topLeading)
-                                .background(.red)
-                                
-                                
-//                        .frame(width: geo.size.width, height: geo.size.height)
-//                        .frame(minWidth: geometry.size.width, minHeight: geometry.size.height, alignment: .center)
-                            }
-                        
-                            NativeAdView()
-                                .frame(minWidth: 100, maxWidth: .infinity, minHeight: 114, maxHeight: 114)
-                                .background(
-                                    Rectangle()
-                                        .fill(.black.opacity(0.2))
-                                        .blur(radius: 4)
-                                        .ignoresSafeArea(.all)
-                                )
-                                .padding(.top, 30)
-                                .padding(.bottom, 0)
-                            
-                        }
-                    }
-                    .background(Color(red:11/255,green:12/255,blue:17/255))
+                if isFullAccessGiven {
                     
+                    ZStack(alignment: .bottom) {
+                        ScrollView {
+                            AllAccessGalleryGrid(
+                                photoList: $photos,
+                                openGallery: {showPhotoSheet = true},
+                                showPreviewSheet: { photo in
+                                    selectedPhoto = photo
+                                    showPreviewSheet = true
+                                }
+                            )
+                        }
+                        .clipped()
+                        .offset(x: 0, y: -40)
+                        .ignoresSafeArea(edges: .bottom)
+                        
+                        NativeAdView()
+                            .frame(width: UIScreen.main.bounds.width, height: 114, alignment: .bottom)
+                            .padding(.bottom, 46)
+                    }
+                    .background(Color(red:0.04, green:0.05, blue:0.07))
                     
                 } else {
-                    GeometryReader { geo in
-                        ZStack(alignment: .bottom) {
-                            LazyVGrid(columns: columns, alignment: .center) {
-                                ForEach(0...5, id: \.self) { index in
-                                    if index == 0 {
-                                        VStack {
-                                            
-                                            Image("ic-import")
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(minWidth: 22, maxWidth: 22,minHeight: 22 ,maxHeight: 22)
-                                                .padding(.bottom, 17)
-                                            
-                                            
-                                            Text("IMPORT PHOTO")
-                                                .font(.custom("Gilroy_Regular", size: 12))
-                                                .foregroundColor(.white)
-                                        }
-                                        .frame(minWidth: 110, maxWidth: 110,minHeight: 110 ,maxHeight: 110)
-                                        .background(Color(red: 18/255, green: 20/255, blue: 28/255))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(.white, lineWidth: 2)
-                                        )
-                                        .cornerRadius(10.0)
-                                        .padding()
-                                        .onTapGesture {
-                                            print("open photo sheet")
-                                            showPhotoSheet.toggle()
-                                        }
-                                        
-                                    } else {
-                                        Color(red: 18/255, green: 20/255, blue: 28/255)
-                                            .scaledToFill()
-                                            .frame(minWidth: 110, maxWidth: 110,minHeight: 110 ,maxHeight: 110)
-                                            .cornerRadius(10.0)
-                                    }
-                                    
+                    
+                    ZStack(alignment: .bottom) {
+                        ScrollView {
+                            PartialAccessGalleryGrid(
+                                photoList: $photos,
+                                showPhotoSheet: {showPhotoSheet = true},
+                                showPreviewSheet: { photo in
+                                    selectedPhoto = photo
+                                    showPreviewSheet = true
                                 }
-                            }
-                            .padding(.horizontal, 12)
-                            .frame(width: geo.size.width, height: geo.size.height, alignment: .topLeading)
-                            .background(.red)
-                            
-                            NativeAdView()
-                                .frame(minWidth: 100, maxWidth: .infinity, minHeight: 114, maxHeight: 114)
-                                .background(
-                                    Rectangle()
-                                        .fill(.black.opacity(0.2))
-                                        .blur(radius: 4)
-                                        .ignoresSafeArea(.all)
-                                )
-                                .padding(.top, 30)
-                                .padding(.bottom, 0)
+                            )
+                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .topLeading)
+                           
                         }
-//                        .frame(width: geo.size.width, height: .infinity)
-//                        .frame(minWidth: geo.size.width, maxWidth: .infinity, minHeight: geo.size.height, maxHeight: .infinity)
+                        .clipped()
+                        .offset(x: 0, y: -40)
+                        .ignoresSafeArea(edges: .bottom)
+
+                        NativeAdView()
+                            .frame(width: UIScreen.main.bounds.width, height: 114, alignment: .bottom)
+                            .padding(.bottom, 46)
                     }
-                    .background(Color(red:11/255,green:12/255,blue:17/255))
+                    .background(Color(red:0.04, green:0.05, blue:0.07))
                     
                 }
                 
             } else {
 
-                GeometryReader { geo in
-                    VStack {
-                        
-                        PhotoAccessView(openPermissions: {
-                            isPermissionGiven = true
-                        })
-                        .frame(width: 343, height: 587)
-                        .padding(.horizontal, 16)
-                        .background(Color(red:11/255,green:12/255,blue:17/255))
-                        
-                        NativeAdView()
-                            .frame(minWidth: 100, maxWidth: .infinity, minHeight: 114, maxHeight: 114)
-                            .background(
-                                Rectangle()
-                                    .fill(.red)
-                                    .blur(radius: 20)
-                                    .ignoresSafeArea(.all)
-                            )
-                            .padding(.top, 0)
-                            .padding(.bottom, 100)
-                    }
-                    .frame(width:geo.size.width, height: geo.size.height)
+                VStack {
+                    
+                    PhotoAccessView(openPermissions: {
+                        PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+                            switch status {
+                            case .notDetermined:
+                                // The user hasn't determined this app's access.
+                                isPermissionGiven = false
+                                isFullAccessGiven = false
+                            case .restricted:
+                                // The system restricted this app's access.
+                                isPermissionGiven = true
+                                isFullAccessGiven = false
+                            case .denied:
+                                // The user explicitly denied this app's access.
+                                isPermissionGiven = false
+                                isFullAccessGiven = false
+                                isDenied = true
+                            case .authorized:
+                                // The user authorized this app to access Photos data.
+                                isPermissionGiven = true
+                                isFullAccessGiven = true
+                            case .limited:
+                                // The user authorized this app for limited Photos access.
+                                isPermissionGiven = true
+                                isFullAccessGiven = false
+                            @unknown default:
+                                fatalError()
+                            }
+                        }
+                    })
+                    .frame(width: 343, height: 587)
+                    .padding(.horizontal, 16)
                     .background(Color(red:11/255,green:12/255,blue:17/255))
-
+                    
+                    NativeAdView()
+                        .frame(minWidth: 100, maxWidth: .infinity, minHeight: 114, maxHeight: 114)
+                        .padding(.top, 0)
+                        .padding(.bottom, 100)
+                    
                 }
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+
             }
             
         }
+        .onAppear {
+            
+            let readWriteStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+            
+            switch readWriteStatus {
+                case .notDetermined:
+                    print("not determined")
+                    isPermissionGiven = false
+                case .restricted:
+                    print("restricted")
+                    isPermissionGiven = false
+                case .denied:
+                    print("denied")
+                    isPermissionGiven = false
+                case .authorized:
+                    print("authorized")
+                    isFullAccessGiven = true
+                    isPermissionGiven = true
+                case .limited:
+                    print("limited")
+                    isPermissionGiven = true
+                @unknown default:
+                    print("fatalError")
+            }
+        }
+        .background(Color(red: 0.04, green: 0.05, blue: 0.07))
         .toolbar {
             
             HStack(alignment: .center) {
@@ -240,14 +185,13 @@ struct HomeView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: 48, alignment: .trailing)
                 .padding(.trailing, 18)
-                
 
             }
+            .ignoresSafeArea(edges: .top)
             .frame(width: UIScreen.main.bounds.width, height: 64, alignment: .center)
             .background(.black)
             
         }
-        
         .toolbarBackground(.black, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .fullScreenCover(isPresented: $showPhotoSheet) {
@@ -260,7 +204,7 @@ struct HomeView: View {
                         if let first = images.first {
                             print(first)
                             image = first
-                            photos.append(PhotoItem(image: Image(uiImage: first)))
+                            photos.insert(PhotoItem(image: Image(uiImage: first)), at: 1)
                         }
                     }
                 }
@@ -275,7 +219,7 @@ struct HomeView: View {
                     Spacer(minLength: 300)
                     
                     Button(action: {
-                        showPreviewSheet.toggle()
+                        showPreviewSheet = false
                     }) {
                         Image("ic-white-cross")
                             .resizable()
@@ -294,7 +238,7 @@ struct HomeView: View {
                 Spacer(minLength: 24)
 
                 Button(action: {
-                    showPreviewSheet.toggle()
+                    showPreviewSheet = false
                 }) {
                     Text("Process Image")
                         .font(.custom("Gilroy-Regular", size: 17))

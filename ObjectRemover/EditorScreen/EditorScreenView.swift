@@ -50,7 +50,6 @@ struct EditorScreenView: View {
                                     .frame(width: 13, height: 11)
                             
                             }
-                            .frame(width: 36, height: 36)
                             .background(Color(red: 0, green: 0, blue: 0, opacity: 0.5))
                             .contentShape(Circle())
                             .cornerRadius(100)
@@ -214,10 +213,14 @@ struct EditorScreenView: View {
             
             HStack(alignment: .center) {
                 
-               Image("ic-home")
-                    .resizable()
-                    .scaledToFit()
-                    .padding(.all, 18)
+                Button(action: {
+                    print("go home")
+                }) {
+                    Image("ic-home")
+                        .resizable()
+                        .scaledToFit()
+                        .padding(.all, 12)
+                }
                 
                 Spacer(minLength: 8)
                 

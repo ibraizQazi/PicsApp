@@ -13,10 +13,11 @@ struct SplashScreen: View {
     var body: some View {
         
         NavigationView {
-            ZStack {
+  
                 if self.isActive {
-//                    HomeView()
-                    EditorScreenView()
+                    HomeView()
+//                    EditorScreenView()
+//                    ShareScreenView()
                     //                EditorView(photo: .constant(Photo(image: UIImage(named: "permission-asset")!)))
                 } else {
                     VStack {
@@ -33,6 +34,7 @@ struct SplashScreen: View {
                             
                             Text("Object Remover")
                                 .font(.custom("Gilroy-Bold", size: 24))
+                                .foregroundColor(.black)
                                 .tracking(-0.5)
                             
                         }.frame(maxWidth: 180, maxHeight: 120)
@@ -47,22 +49,25 @@ struct SplashScreen: View {
                             
                             Text("AI model is warming up...")
                                 .font(.custom("Gilroy-SemiBold", size: 14))
+                                .foregroundColor(.black)
+                                .padding(.bottom, 40)
                             
                         }.frame(maxWidth: 160, maxHeight: 160)
                             .padding(.bottom, 70)
                         
                             
                     }
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     .background(.white)
-                }
-            }
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                    withAnimation {
-                        self.isActive = true
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                            withAnimation {
+                                self.isActive = true
+                            }
+                        }
                     }
                 }
-            }
+            
         }
     }
 }

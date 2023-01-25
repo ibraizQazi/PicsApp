@@ -34,10 +34,18 @@ struct PhotoAccessView: View {
                         Button(action: openPermissions) {
                             Text("Give Access")
                                 .font(.custom("Gilroy-SemiBold", size: 17))
+                                .foregroundColor(.black)
                         }
                         
                         .frame(width: 283, height: 45)
-                        .background(.black)
+                        .background(
+                            LinearGradient(
+                                colors: [Color(red: 179/255, green: 1, blue: 171/255),
+                                         Color(red: 18/255, green: 1, blue: 247/255)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                         .foregroundColor(.white)
                         .cornerRadius(16)
                     }

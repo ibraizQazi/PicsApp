@@ -19,3 +19,16 @@ struct PhotoItem: Identifiable {
     }
 }
 
+extension PhotoItem {
+    static let sampleData: [PhotoItem] = [
+        PhotoItem(image: Image("placeholder-image")),
+        PhotoItem(image: Image("placeholder-image")),
+        PhotoItem(image: Image("placeholder-image")),
+        PhotoItem(image: Image("placeholder-image")),
+        PhotoItem(image: Image("placeholder-image")),
+        PhotoItem(image: Image("placeholder-image")),
+        PhotoItem(image: Image("placeholder-image")),
+        PhotoItem(image: Image("placeholder-image")),
+        PhotoItem(image: Image("placeholder-image")),
+    ]
+}

@@ -60,6 +60,8 @@ struct PhotoPicker: UIViewControllerRepresentable {
                     }
                     if let image = imageOrNil as? UIImage {
                         images.append(image)
+//                        images.insert(image, at: images.startIndex)
+
                         dispatchGroup.leave()
                     }
                 }
