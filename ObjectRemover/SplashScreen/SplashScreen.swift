@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SplashScreen: View {
     @State private var isActive: Bool = false
-        
+    let homeView = HomeView()
     var body: some View {
         
         NavigationView {
@@ -18,7 +18,8 @@ struct SplashScreen: View {
                     HomeView()
 //                    EditorScreenView()
 //                    ShareScreenView()
-                    //                EditorView(photo: .constant(Photo(image: UIImage(named: "permission-asset")!)))
+//                    IAPScreen()
+//                    EditorView()
                 } else {
                     VStack {
                         
@@ -32,7 +33,7 @@ struct SplashScreen: View {
                             
                             Spacer(minLength: 16)
                             
-                            Text("Object Remover")
+                            Text("SnapErase")
                                 .font(.custom("Gilroy-Bold", size: 24))
                                 .foregroundColor(.black)
                                 .tracking(-0.5)

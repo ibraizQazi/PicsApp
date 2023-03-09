@@ -1,12 +1,30 @@
 {
   "pins" : [
     {
+      "identity" : "customalert",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/divadretlaw/CustomAlert.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "80e776ac56480446b1af6f14727619675b5fa031"
+      }
+    },
+    {
       "identity" : "lottie-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/airbnb/lottie-ios.git",
       "state" : {
         "branch" : "master",
         "revision" : "178cfeede1cb97858dd1ff15627fe5ada41cc10b"
+      }
+    },
+    {
+      "identity" : "windowscenereader",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/divadretlaw/WindowSceneReader",
+      "state" : {
+        "revision" : "8700ee5260654666a63d8a21581a63a2972baf32",
+        "version" : "1.1.0"
       }
     }
   ],

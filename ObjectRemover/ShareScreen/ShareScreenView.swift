@@ -8,36 +8,67 @@
 import SwiftUI
 
 struct ShareScreenView: View {
+    
+    
+    
     var body: some View {
         VStack(spacing: 0) {
             Image("placeholder-image")
                 .resizable()
-                .scaledToFill()
+                .aspectRatio(CGSize(width: 2, height: 3), contentMode: .fill)
+                .frame(width: 343, height: 343)
+                .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                 .overlay(
                     
-                    HStack {
-                        
-                        Image("ic-white-tick")
-                            .resizable()
-                            .scaledToFill()
+                    VStack {
+                
+                        HStack(spacing: 0) {
+                            
+                            VStack {
+                                
+                                Image("ic-white-tick")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 11, height: 8)
+                                    .padding(.init(top: 6, leading: 4.67, bottom: 6.33, trailing: 4.67))
+                                
+                            }
                             .background(Color(red: 0.2, green: 0.78, blue: 0.35))
                             .frame(width: 20, height: 20)
                             .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-                            .padding(.init(top: 10, leading: 16, bottom: 10, trailing: 6))
-                        
-                        Text("Photo Saved")
-                            .font(.custom("Gilroy-SemiBold", size: 16))
-                            .foregroundColor(.black)
-                            .padding(.init(top: 8, leading: 0, bottom: 8, trailing: 16))
+                            .padding(.init(top: 10, leading: 16, bottom: 10, trailing: 0))
+                            
+                            
+                            Text("Photo Saved")
+                                .font(.custom("Gilroy-SemiBold", size: 16))
+                                .foregroundColor(.black)
+                                .padding(.init(top: 8, leading: 6, bottom: 8, trailing: 16))
+                            
+                        }
+                        .background(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .circular))
                         
                     }
-                    .background(.white)
-                    .frame(width: 160, height: 40)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .frame(width: 343, height: 343)
+                    .background(Color.black.opacity(0.8))
+                
                 )
-                .frame(width: 343, height: 343)
                 .padding(.init(top: 30, leading: 16, bottom: 30, trailing: 16))
-            
+                
+            Button(action: {}) {
+                Image("bg-remove-watermark")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 303, height: 58)
+                    .overlay(
+                        Text("Remove Watermark")
+                            .font(.custom("Gilroy-Bold", size: 17))
+                            .foregroundColor(.black)
+                            .padding(.top, 10)
+                    )
+            }
+            .offset(x: 0, y: -40)
+                        
             HStack(spacing: 17) {
                 //socials
                 
@@ -111,38 +142,45 @@ struct ShareScreenView: View {
                 
                 
             }
-            .frame(width: UIScreen.main.bounds.width, height: 64)
+            .frame(width: UIScreen.main.bounds.width, height: 72)
             .background(.black)
             
+
+            NativeAdView()
+                .frame(width: UIScreen.main.bounds.width, height: 94, alignment: .bottom)
+                .padding(.bottom, 34)
+            
+        }
+        .toolbarBackground(.black, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .background(.black)
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        .toolbar {
             HStack {
-                NativeAdView()
-            }
-            .frame(width: UIScreen.main.bounds.width, height: 60)
-            .background(.black)
-            
-        }.toolbar {
-            HStack(spacing: 100) {
                 Button(action: {
                     print("close screen")
                 }) {
                     Image("ic-white-cross")
                         .resizable()
-                        .scaledToFit()
-                        .padding(.all, 12)
+                        .scaledToFill()
+                        .padding(.all, 13)
+                        .frame(width: 44, height: 44)
                 }
+//                .padding(.leading, 16)
+                
+                Spacer()
                 
                 Text("Share")
                     .font(.custom("Gilroy-SemiBold", size: 24))
                     .foregroundColor(.white)
+                    .padding(.trailing, 45)
+                
+                Spacer()
                 
             }
             .frame(width: UIScreen.main.bounds.width, height: 64, alignment: .center)
             .background(.black)
         }
-        .toolbarBackground(.black, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .background(Color(red: 30/255, green: 32/255, blue: 39/255))
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
     }
 }
 

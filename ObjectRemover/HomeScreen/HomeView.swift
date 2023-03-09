@@ -11,8 +11,11 @@ import Photos
 
 struct HomeView: View {
    
+//    @EnvironmentObject var photosModel: PhotosModel
+    
     @State private var photos: [PhotoItem] = [PhotoItem(image: Image("ic-import"))]
-    @State private var selectedPhoto: Image? = nil
+    
+    
     @State private var showPhotoSheet = false
     @State private var showPreviewSheet = false
     @State private var image: UIImage? = nil
@@ -32,52 +35,45 @@ struct HomeView: View {
                 
                 if isFullAccessGiven {
                     
-                    ZStack(alignment: .bottom) {
-                        ScrollView {
-                            AllAccessGalleryGrid(
-                                photoList: $photos,
-                                openGallery: {showPhotoSheet = true},
-                                showPreviewSheet: { photo in
-                                    selectedPhoto = photo
-                                    showPreviewSheet = true
-                                }
-                            )
-                        }
-                        .clipped()
-                        .offset(x: 0, y: -40)
-                        .ignoresSafeArea(edges: .bottom)
-                        
-                        NativeAdView()
-                            .frame(width: UIScreen.main.bounds.width, height: 114, alignment: .bottom)
-                            .padding(.bottom, 46)
-                    }
-                    .background(Color(red:0.04, green:0.05, blue:0.07))
+//                    ZStack(alignment: .bottom) {
+//                        ScrollView {
+                    AllAccessGalleryGrid(viewModel: AllAccessViewModel())
+//                        }
+//                        .clipped()
+//                        .offset(x: 0, y: -40)
+//                        .ignoresSafeArea(edges: .bottom)
+//
+//                        NativeAdView()
+//                            .frame(width: UIScreen.main.bounds.width, height: 114, alignment: .bottom)
+//                            .padding(.bottom, 46)
+//
+//                    }
+//                    .background(Color(red:0.04, green:0.05, blue:0.07))
                     
                 } else {
                     
-                    ZStack(alignment: .bottom) {
-                        ScrollView {
-                            PartialAccessGalleryGrid(
-                                photoList: $photos,
-                                showPhotoSheet: {showPhotoSheet = true},
-                                showPreviewSheet: { photo in
-                                    selectedPhoto = photo
-                                    showPreviewSheet = true
-                                }
-                            )
-                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .topLeading)
-                           
-                        }
-                        .clipped()
-                        .offset(x: 0, y: -40)
-                        .ignoresSafeArea(edges: .bottom)
-
-                        NativeAdView()
-                            .frame(width: UIScreen.main.bounds.width, height: 114, alignment: .bottom)
-                            .padding(.bottom, 46)
-                    }
-                    .background(Color(red:0.04, green:0.05, blue:0.07))
-                    
+//                    ZStack(alignment: .bottom) {
+//                        ScrollView {
+                            PartialAccessGalleryGrid(viewModel: PartialAccessViewModel())
+//                                showPhotoSheet: {showPhotoSheet = true}
+//                                showPreviewSheet: { photo in
+//                                    selectedPhoto = photo
+//                                    showPreviewSheet = true
+//                                }
+//                            )
+//                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .topLeading)
+//
+//                        }
+//                        .clipped()
+//                        .offset(x: 0, y: -40)
+//                        .ignoresSafeArea(edges: .bottom)
+//
+//                        NativeAdView()
+//                            .frame(width: UIScreen.main.bounds.width, height: 114, alignment: .bottom)
+//                            .padding(.bottom, 46)
+//                    }
+//                    .background(Color(red:0.04, green:0.05, blue:0.07))
+//
                 }
                 
             } else {
@@ -87,27 +83,27 @@ struct HomeView: View {
                     PhotoAccessView(openPermissions: {
                         PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
                             switch status {
-                            case .notDetermined:
-                                // The user hasn't determined this app's access.
-                                isPermissionGiven = false
-                                isFullAccessGiven = false
-                            case .restricted:
-                                // The system restricted this app's access.
-                                isPermissionGiven = true
-                                isFullAccessGiven = false
-                            case .denied:
-                                // The user explicitly denied this app's access.
-                                isPermissionGiven = false
-                                isFullAccessGiven = false
-                                isDenied = true
-                            case .authorized:
-                                // The user authorized this app to access Photos data.
-                                isPermissionGiven = true
-                                isFullAccessGiven = true
-                            case .limited:
-                                // The user authorized this app for limited Photos access.
-                                isPermissionGiven = true
-                                isFullAccessGiven = false
+                                case .notDetermined:
+                                    // The user hasn't determined this app's access.
+                                    isPermissionGiven = false
+                                    isFullAccessGiven = false
+                                case .restricted:
+                                    // The system restricted this app's access.
+                                    isPermissionGiven = true
+                                    isFullAccessGiven = false
+                                case .denied:
+                                    // The user explicitly denied this app's access.
+                                    isPermissionGiven = false
+                                    isFullAccessGiven = false
+                                    isDenied = true
+                                case .authorized:
+                                    // The user authorized this app to access Photos data.
+                                    isPermissionGiven = true
+                                    isFullAccessGiven = true
+                                case .limited:
+                                    // The user authorized this app for limited Photos access.
+                                    isPermissionGiven = true
+                                    isFullAccessGiven = false
                             @unknown default:
                                 fatalError()
                             }
@@ -194,76 +190,95 @@ struct HomeView: View {
         }
         .toolbarBackground(.black, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-        .fullScreenCover(isPresented: $showPhotoSheet) {
-            PhotoPicker(filter: .images, limit: 1) { results in
-                PhotoPicker.convertToUIImageArray(fromResults: results) { (imagesOrNil, errorOrNil) in
-                    if let error = errorOrNil {
-                        print(error)
-                    }
-                    if let images = imagesOrNil {
-                        if let first = images.first {
-                            print(first)
-                            image = first
-                            photos.insert(PhotoItem(image: Image(uiImage: first)), at: 1)
-                        }
-                    }
-                }
-            }
-            .edgesIgnoringSafeArea(.all)
-        }
-        .sheet(isPresented: $showPreviewSheet) {
-
-            VStack {
-
-                HStack{
-                    Spacer(minLength: 300)
-                    
-                    Button(action: {
-                        showPreviewSheet = false
-                    }) {
-                        Image("ic-white-cross")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 18, height: 18)
-                    }
-                    
-                }.padding()
-
-                Image("placeholder-image")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 327, height: 327)
-                    .cornerRadius(16)
-                
-                Spacer(minLength: 24)
-
-                Button(action: {
-                    showPreviewSheet = false
-                }) {
-                    Text("Process Image")
-                        .font(.custom("Gilroy-Regular", size: 17))
-                        .frame(width: 327, height: 45)
-                        .background(
-                            LinearGradient(
-                                colors: [Color(red: 179/255, green: 1, blue: 171/255), Color(red: 18/255, green: 1, blue: 247/255)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ))
-                        .foregroundColor(.black)
-                        .cornerRadius(16)
-                }
-
-                Spacer(minLength: 28)
-
-                NativeAdView()
-                    .frame(minWidth: UIScreen.main.bounds.width, minHeight: 60)
-            }
-            .background(Color(red: 30/255, green: 32/255, blue: 39/255))
-            .presentationDetents(
-                [.height(UIScreen.main.bounds.height * 0.70)],
-                selection: $settingsDetent
-            )
-        }
+//        .fullScreenCover(isPresented: $showPhotoSheet) {
+//            PhotoPicker(filter: .images, limit: 1) { results in
+//                PhotoPicker.convertToUIImageArray(fromResults: results) { (imagesOrNil, errorOrNil) in
+//                    if let error = errorOrNil {
+//                        print(error)
+//                    }
+//                    if let images = imagesOrNil {
+//                        if let first = images.first {
+//                            print(first)
+//                            image = first
+//                            photos.insert(PhotoItem(image: Image(uiImage: first)), at: 1)
+//                        }
+//                    }
+//                }
+//            }
+//            .edgesIgnoringSafeArea(.all)
+            
+//            PhotoPicker()
+//        }
+//        .sheet(isPresented: $showPreviewSheet) {
+//
+//            NavigationView {
+//                VStack {
+//
+//                    HStack {
+//
+//                        Spacer(minLength: 300)
+//
+//                        Button(action: {
+//                            showPreviewSheet = false
+//                        }) {
+//                            Image("ic-white-cross")
+//                                .resizable()
+//                                .scaledToFill()
+//                                .frame(width: 18, height: 18)
+//                        }
+//                        .frame(width: 44, height: 44)
+//
+//                    }
+//                    .padding(.trailing, 8)
+//                    .padding(.top, 8)
+//                    .padding(.bottom, 5)
+//
+//                    if photosModel.selectedPhoto != nil {
+//
+//                        AsyncImage(url: photosModel.selectedPhoto?.url) { image in
+//                            image
+//                                .resizable()
+//                                .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
+//                                .frame(width: 343, height: 343)
+//                                .cornerRadius(16)
+//                                .padding(.bottom, 18)
+//
+//                        } placeholder: {
+//                            ProgressView()
+//                        }
+//
+//
+//                    } else {
+//                        Text("error")
+//                    }
+//
+//
+//                    NavigationLink(destination: EditorScreenView(), label: {
+//                        Text("Process Image")
+//                            .font(.custom("Gilroy-SemiBold", size: 17))
+//                            .frame(width: 343, height: 45)
+//                            .background(
+//                                LinearGradient(
+//                                    colors: [Color(red: 179/255, green: 1, blue: 171/255), Color(red: 18/255, green: 1, blue: 247/255)],
+//                                    startPoint: .topLeading,
+//                                    endPoint: .bottomTrailing
+//                                ))
+//                            .foregroundColor(.black)
+//                            .cornerRadius(16)
+//                    })
+//
+//                    Spacer(minLength: 28)
+//
+//                    NativeAdView()
+//                        .frame(minWidth: UIScreen.main.bounds.width, minHeight: 60)
+//                }
+//                .background(Color(red: 30/255, green: 32/255, blue: 39/255))
+//                .presentationDetents(
+//                    [.height(UIScreen.main.bounds.height * 0.71)],
+//                    selection: $settingsDetent
+//                )
+//            }
+//        }
 
     }
 }

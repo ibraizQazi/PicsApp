@@ -9,11 +9,15 @@ import SwiftUI
 
 @main
 struct ObjectRemoverApp: App {
+    
+
+    
     var body: some Scene {
         WindowGroup {
-            NavigationView {
+            NavigationStack {
                 SplashScreen()
             }
+            .navigationViewStyle(.stack)
         }
     }
 }

@@ -34,28 +34,31 @@ struct ProgressDialogView: View {
                 .padding(.init(top: 12, leading: 30, bottom: 40, trailing: 30))
             
             // ad view
-            Image("native-ad-placeholder-image")
-                .resizable()
-                .scaledToFill()
-                .frame(width:345, height: 56)
-            
-            Button(action: openAd) {
-                Text("Open")
-                    .font(.custom("Gilroy-SemiBold", size: 16))
-                    .foregroundColor(.black)
-            }
-            .frame(width: 283, height: 45)
-            .background(
-                LinearGradient(
-                    colors: [Color(red: 0.7, green: 1, blue: 0.67),
-                             Color(red: 0.07, green: 1, blue: 0.97)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
+            VStack {
+                Image("native-ad-placeholder-image")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width:345, height: 56)
+                
+                Button(action: openAd) {
+                    Text("Open")
+                        .font(.custom("Gilroy-SemiBold", size: 16))
+                        .foregroundColor(.black)
+                }
+                .frame(width: 271, height: 39)
+                .background(
+                    LinearGradient(
+                        colors: [Color(red: 0.7, green: 1, blue: 0.67),
+                                 Color(red: 0.07, green: 1, blue: 0.97)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
                 )
-            )
-            .foregroundColor(.white)
-            .cornerRadius(16)
-            .padding(.init(top: 12, leading: 28, bottom: 20, trailing: 28))
+                .foregroundColor(.white)
+                .cornerRadius(16)
+                .padding(.init(top: 12, leading: 28, bottom: 20, trailing: 28))
+            }
+            .frame(width: 327, height: 157)
             
         }
         .background(Color(red: 0.14, green: 0.14, blue: 0.16))
