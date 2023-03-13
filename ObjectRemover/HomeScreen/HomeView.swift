@@ -25,7 +25,11 @@ struct HomeView: View {
     
     @State private var settingsDetent = PresentationDetent.medium
 
-    private let columns: [GridItem] = [GridItem(.fixed(110), spacing: 4.5), GridItem(.fixed(110), spacing: 4.5), GridItem(.fixed(110), spacing: 4.5)]
+    private let columns: [GridItem] = [
+        GridItem(.fixed(110), spacing: 4.5),
+        GridItem(.fixed(110), spacing: 4.5),
+        GridItem(.fixed(110), spacing: 4.5)
+    ]
     
     var body: some View {
         
@@ -34,46 +38,13 @@ struct HomeView: View {
             if isPermissionGiven {
                 
                 if isFullAccessGiven {
-                    
-//                    ZStack(alignment: .bottom) {
-//                        ScrollView {
-                    AllAccessGalleryGrid(viewModel: AllAccessViewModel())
-//                        }
-//                        .clipped()
-//                        .offset(x: 0, y: -40)
-//                        .ignoresSafeArea(edges: .bottom)
-//
-//                        NativeAdView()
-//                            .frame(width: UIScreen.main.bounds.width, height: 114, alignment: .bottom)
-//                            .padding(.bottom, 46)
-//
-//                    }
-//                    .background(Color(red:0.04, green:0.05, blue:0.07))
+
+                    AllAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum:.smartAlbumUserLibrary))
                     
                 } else {
                     
-//                    ZStack(alignment: .bottom) {
-//                        ScrollView {
-                            PartialAccessGalleryGrid(viewModel: PartialAccessViewModel())
-//                                showPhotoSheet: {showPhotoSheet = true}
-//                                showPreviewSheet: { photo in
-//                                    selectedPhoto = photo
-//                                    showPreviewSheet = true
-//                                }
-//                            )
-//                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .topLeading)
-//
-//                        }
-//                        .clipped()
-//                        .offset(x: 0, y: -40)
-//                        .ignoresSafeArea(edges: .bottom)
-//
-//                        NativeAdView()
-//                            .frame(width: UIScreen.main.bounds.width, height: 114, alignment: .bottom)
-//                            .padding(.bottom, 46)
-//                    }
-//                    .background(Color(red:0.04, green:0.05, blue:0.07))
-//
+                    PartialAccessGalleryGrid(viewModel: PartialAccessViewModel())
+
                 }
                 
             } else {
@@ -81,6 +52,7 @@ struct HomeView: View {
                 VStack {
                     
                     PhotoAccessView(openPermissions: {
+                        
                         PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
                             switch status {
                                 case .notDetermined:

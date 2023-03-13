@@ -16,6 +16,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
     /// A dismiss action provided by the environment. This may be called to dismiss this view controller.
     @Environment(\.dismiss) var dismiss
 
+    
     /// Creates the picker view controller that this object represents.
     func makeUIViewController(context: UIViewControllerRepresentableContext<PhotoPicker>) -> PHPickerViewController {
 
@@ -64,13 +65,20 @@ class Coordinator: NSObject, UINavigationControllerDelegate, PHPickerViewControl
             } else if let url = url {
                 if let savedUrl = FileManager.default.copyItemToDocumentDirectory(from: url) {
                     // Add the new item to the data model.
-                    Task { @MainActor [dataModel = self.parent.dataModel] in
-                        withAnimation {
-                            let item = ImageItem(url: savedUrl)
-                            dataModel.addItem(item: item)
-                        }
-                    }
+//                    Task { @MainActor [dataModel = self.parent.dataModel] in
+//                        withAnimation {
+//                            let item = ImageItem(url: savedUrl)
+//                            dataModel.addItem(item: item)
+//                        }
+//                    }
                 }
+            }
+        }
+        result.itemProvider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier) { data, error in
+            if let error = error {
+                print("Error loading data representation: \(error.localizedDescription)")
+            } else if let data = data {
+                //add new asset to photo collection
             }
         }
     }
