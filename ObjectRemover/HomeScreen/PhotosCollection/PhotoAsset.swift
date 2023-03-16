@@ -26,7 +26,7 @@ struct PhotoAsset: Identifiable {
     }
     
     var accessibilityLabel: String {
-        "Photo\(isFavorite ? ", Favorite" : "")"
+        "Photo"
     }
     
     init(phAsset: PHAsset, index: Int?) {

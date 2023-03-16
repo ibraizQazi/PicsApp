@@ -70,11 +70,11 @@ class PhotoCollection: NSObject, ObservableObject {
     func loadPhotos() async {
         guard !isPhotosLoaded else { return }
         
-        let authorized = await PhotoLibrary.checkAuthorization()
-        guard authorized else {
-            logger.error("Photo library access was not authorized.")
-            return
-        }
+//        let authorized = await PhotoLibrary.checkAuthorization()
+//        guard authorized else {
+//            logger.error("Photo library access was not authorized.")
+//            return
+//        }
         
         Task {
             do {

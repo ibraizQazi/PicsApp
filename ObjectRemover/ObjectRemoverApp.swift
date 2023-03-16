@@ -10,7 +10,6 @@ import SwiftUI
 @main
 struct ObjectRemoverApp: App {
     
-
     
     var body: some Scene {
         WindowGroup {

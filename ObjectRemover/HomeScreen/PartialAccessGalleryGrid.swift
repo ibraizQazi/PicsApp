@@ -9,59 +9,51 @@ import SwiftUI
 
 struct PartialAccessGalleryGrid: View {
     
-    @StateObject var viewModel = PartialAccessViewModel()
+    @ObservedObject var photoCollection : PhotoCollection
+
+    @Environment(\.displayScale) private var displayScale
+    @State var previewAsset: PhotoAsset?
+    @State private var showPhotoSheet = false
+    @State private var settingsDetent = PresentationDetent.medium
+
+    private static let itemSpacing = 4.5
+    private static let itemCornerRadius = 10.0
+    private static let itemSize = CGSize(width: 110, height: 110)
+    private static let previewImageSize = CGSize(width: 343, height: 343)
+    
+    private var imageSize: CGSize {
+        return CGSize(width: Self.itemSize.width * min(displayScale, 2), height: Self.itemSize.height * min(displayScale, 2))
+    }
     
     private let columns: [GridItem] = [
-        GridItem(.fixed(110), spacing: 4.5),
-        GridItem(.fixed(110), spacing: 4.5),
-        GridItem(.fixed(110), spacing: 4.5)
+        GridItem(.fixed(itemSize.width), spacing: itemSpacing),
+        GridItem(.fixed(itemSize.width), spacing: itemSpacing),
+        GridItem(.fixed(itemSize.width), spacing: itemSpacing)
     ]
     
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            if viewModel.items.count > 1 {
+            if !photoCollection.photoAssets.isEmpty {
                 
                 ScrollView {
-                    LazyVGrid(columns: columns, alignment: .center, spacing: 4.5) {
+                    LazyVGrid(columns: columns, alignment: .center, spacing: Self.itemSpacing) {
                         
-                        ForEach(0..<viewModel.items.count, id: \.self) { index in
-                            
-                            let photo = viewModel.items[index]
-                            
-                            if index == 0 {
-                                AddImageView()
-                                    .onTapGesture {
-                                        if index == 0 {
-                                            print("open photo sheet")
-                                        }
-                                    }
-                                    .contentShape(Rectangle())
-                                
-                            } else  {
-                                
-                                AsyncImage(url: photo.url) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                    
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                                .frame(minWidth: 110, maxWidth: 110,minHeight: 110 ,maxHeight: 110)
-                                .cornerRadius(10)
+                        AddImageView()
+                            .onTapGesture {
+                                print("open photo sheet")
+                                self.showPhotoSheet = true
+                            }
+                            .contentShape(Rectangle())
+                        
+                        ForEach(photoCollection.photoAssets) { asset in
+                            photoItemView(asset: asset)
+                                .accessibilityLabel(asset.accessibilityLabel)
                                 .onTapGesture {
-                                    print("open preview")
-                                    viewModel.setSelectedPhoto(imageItem: photo)
+                                    print("open photo asset")
+                                    self.previewAsset = asset
                                 }
                                 .contentShape(Rectangle())
-                                .task {
-                                    if viewModel.hasReachedEnd(imageItem: photo) {
-                                        print("reached end")
-                                    }
-                                }
-                            }
-                            
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .topLeading)
@@ -79,6 +71,7 @@ struct PartialAccessGalleryGrid: View {
                             AddImageView()
                                 .onTapGesture {
                                     print("open photo sheet")
+                                    self.showPhotoSheet = true
                                 }
                                 .contentShape(Rectangle())
                             
@@ -101,13 +94,106 @@ struct PartialAccessGalleryGrid: View {
                 .padding(.bottom, 46)
             
         }
+        .task {
+            await photoCollection.loadPhotos()
+        }
+        .fullScreenCover(isPresented: $showPhotoSheet) {
+            PhotoPicker(photoCollection: photoCollection)
+        }
+        .sheet(item: $previewAsset, content: { asset in
+            NavigationView {
+                VStack {
+                    
+                    HStack {
+                        
+                        Spacer(minLength: 300)
+                        
+                        Button(action: {
+                            print("close preview sheet")
+                            previewAsset = nil
+                        }) {
+                            Image("ic-white-cross")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 18, height: 18)
+                                .contentShape(Rectangle())
+                        }
+                        .frame(width: 44, height: 44)
+                        
+                    }
+                    .padding(.trailing, 8)
+                    .padding(.top, 8)
+                    .padding(.bottom, 5)
+
+                    PhotoItemView(asset: asset, cache: photoCollection.cache, imageSize: Self.previewImageSize)
+                        .frame(width: Self.previewImageSize.width, height: Self.previewImageSize.height)
+                        .clipped()
+                        .onAppear {
+                            Task {
+                                await photoCollection.cache.startCaching(for: [asset], targetSize: Self.previewImageSize)
+                            }
+                        }
+                        .onDisappear {
+                            Task {
+                                await photoCollection.cache.stopCaching(for: [asset], targetSize: Self.previewImageSize)
+                            }
+                        }
+                    
+                    
+                    NavigationLink(destination: EditorScreenView(), label: {
+                        Text("Process Image")
+                            .font(.custom("Gilroy-SemiBold", size: 17))
+                            .frame(width: 343, height: 45)
+                            .background(
+                                LinearGradient(
+                                    colors: [Color(red: 179/255, green: 1, blue: 171/255), Color(red: 18/255, green: 1, blue: 247/255)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ))
+                            .foregroundColor(.black)
+                            .cornerRadius(16)
+                    })
+                    .navigationBarBackButtonHidden()
+//                    .navigationBarHidden(true)
+                    
+                    Spacer(minLength: 28)
+                    
+                    NativeAdView()
+                        .frame(minWidth: UIScreen.main.bounds.width, minHeight: 60)
+                }
+                
+            }
+            .background(Color(red: 30/255, green: 32/255, blue: 39/255))
+            .presentationDetents(
+                [.height(UIScreen.main.bounds.height * 0.71)],
+                selection: $settingsDetent
+            )
+        })
+    }
+    
+    
+    private func photoItemView(asset: PhotoAsset) -> some View {
+        PhotoItemView(asset: asset, cache: photoCollection.cache, imageSize: imageSize)
+            .frame(width: Self.itemSize.width, height: Self.itemSize.height)
+            .clipped()
+            .cornerRadius(Self.itemCornerRadius)
+            .onAppear {
+                Task {
+                    await photoCollection.cache.startCaching(for: [asset], targetSize: imageSize)
+                }
+            }
+            .onDisappear {
+                Task {
+                    await photoCollection.cache.stopCaching(for: [asset], targetSize: imageSize)
+                }
+            }
     }
 }
 
 struct PartialAccessGalleryGrid_Previews: PreviewProvider {
     static var previews: some View {
 //        if let url = Bundle.main.url(forResource: "grizzly", withExtension: "jpg") {
-            PartialAccessGalleryGrid()
+        PartialAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum: .smartAlbumUserLibrary))
 //        }
     }
 }

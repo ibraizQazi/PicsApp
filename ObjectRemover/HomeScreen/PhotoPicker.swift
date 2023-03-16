@@ -12,6 +12,7 @@ import PhotosUI
 struct PhotoPicker: UIViewControllerRepresentable {
     
     @EnvironmentObject var dataModel: PhotosModel
+    @ObservedObject var photoCollection: PhotoCollection
 
     /// A dismiss action provided by the environment. This may be called to dismiss this view controller.
     @Environment(\.dismiss) var dismiss
@@ -59,26 +60,35 @@ class Coordinator: NSObject, UINavigationControllerDelegate, PHPickerViewControl
 
         // Load a file representation of the picked item.
         // This creates a temporary file which is then copied to the app’s document directory for persistent storage.
-        result.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, error in
-            if let error = error {
-                print("Error loading file representation: \(error.localizedDescription)")
-            } else if let url = url {
-                if let savedUrl = FileManager.default.copyItemToDocumentDirectory(from: url) {
-                    // Add the new item to the data model.
+//        result.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, error in
+//            if let error = error {
+//                print("Error loading file representation: \(error.localizedDescription)")
+//            } else if let url = url {
+//                if let savedUrl = FileManager.default.copyItemToDocumentDirectory(from: url) {
+//                    // Add the new item to the data model.
 //                    Task { @MainActor [dataModel = self.parent.dataModel] in
 //                        withAnimation {
 //                            let item = ImageItem(url: savedUrl)
 //                            dataModel.addItem(item: item)
 //                        }
 //                    }
-                }
-            }
-        }
+//                }
+//            }
+//        }
         result.itemProvider.loadDataRepresentation(forTypeIdentifier: UTType.image.identifier) { data, error in
             if let error = error {
                 print("Error loading data representation: \(error.localizedDescription)")
             } else if let data = data {
                 //add new asset to photo collection
+                Task { @MainActor [photoCollection = self.parent.photoCollection] in
+                    do {
+                        try await photoCollection.addImage(data)
+                        print("Added image data to photo collection.")
+                    } catch let error {
+                        print("Failed to add image to photo collection: \(error.localizedDescription)")
+                    }
+                }
+                
             }
         }
     }

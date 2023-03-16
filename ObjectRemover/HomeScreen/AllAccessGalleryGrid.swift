@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Photos
 
 struct AllAccessGalleryGrid: View {
     
-//    @StateObject var viewModel = AllAccessViewModel()
     @ObservedObject var photoCollection : PhotoCollection
     
     @State private var showPreviewSheet = false
+    @State var previewAsset: PhotoAsset?
     @State private var showPhotoSheet = false
     @State private var settingsDetent = PresentationDetent.medium
 
@@ -21,7 +22,8 @@ struct AllAccessGalleryGrid: View {
     private static let itemSpacing = 4.5
     private static let itemCornerRadius = 10.0
     private static let itemSize = CGSize(width: 110, height: 110)
-    
+    private static let previewImageSize = CGSize(width: 343, height: 343)
+
     private var imageSize: CGSize {
         return CGSize(width: Self.itemSize.width * min(displayScale, 2), height: Self.itemSize.height * min(displayScale, 2))
     }
@@ -30,13 +32,11 @@ struct AllAccessGalleryGrid: View {
         GridItem(.fixed(itemSize.width), spacing: itemSpacing),
         GridItem(.fixed(itemSize.width), spacing: itemSpacing),
         GridItem(.fixed(itemSize.width), spacing: itemSpacing)
-    ]
-    
+    ]    
     
     var body: some View {
         ZStack(alignment: .bottom) {
-                
-//                VStack {
+
            ScrollView {
                 
                 HStack(spacing: 150) {
@@ -63,36 +63,18 @@ struct AllAccessGalleryGrid: View {
                 .padding(.top, 18)
                 .padding(.bottom, 13)
                 
-                    LazyVGrid(columns: columns, alignment: .center, spacing: Self.itemSpacing) {
-                        
-//                        ForEach(0..<viewModel.items.count, id: \.self) { index in
-//                            let photo = viewModel.items[index]
-//                            AsyncImage(url: photo.url) { image in
-//                                image
-//                                    .resizable()
-//                                    .scaledToFill()
-//
-//                            } placeholder: {
-//                                ProgressView()
-//                            }
-//                            .frame(minWidth: 110, maxWidth: 110,minHeight: 110 ,maxHeight: 110)
-//                            .cornerRadius(10)
-//                        }
-              
-                        ForEach(photoCollection.photoAssets) { asset in
-                            photoItemView(asset: asset)
-                                .accessibilityLabel(asset.accessibilityLabel)
-                                .onTapGesture {
-                                    print("open photo asset")
-                                }
-                                .contentShape(Rectangle())
-                        }
-                        
+                LazyVGrid(columns: columns, alignment: .center, spacing: Self.itemSpacing) {
+                    ForEach(photoCollection.photoAssets) { asset in
+                        photoItemView(asset: asset)
+                            .accessibilityLabel(asset.accessibilityLabel)
+                            .onTapGesture {
+                                print("open photo asset")
+                                self.previewAsset = asset
+                            }
+                            .contentShape(Rectangle())
                     }
-//                }
-//                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .topLeading)
-//                .background(Color(red: 0.12, green: 0.13, blue: 0.15))
-//
+                    
+                }
             }
             .clipped()
             .background(Color(red: 0.12, green: 0.13, blue: 0.15))
@@ -109,10 +91,9 @@ struct AllAccessGalleryGrid: View {
         }
         .background(Color(red:0.04, green:0.05, blue:0.07))
         .fullScreenCover(isPresented: $showPhotoSheet) {
-            PhotoPicker()
+            PhotoPicker(photoCollection: photoCollection)
         }
-        .sheet(isPresented: $showPreviewSheet) {
-            
+        .sheet(item: $previewAsset, content: { asset in
             NavigationView {
                 VStack {
                     
@@ -121,12 +102,14 @@ struct AllAccessGalleryGrid: View {
                         Spacer(minLength: 300)
                         
                         Button(action: {
-                            showPreviewSheet = false
+                            print("close preview sheet")
+                            previewAsset = nil
                         }) {
                             Image("ic-white-cross")
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 18, height: 18)
+                                .contentShape(Rectangle())
                         }
                         .frame(width: 44, height: 44)
                         
@@ -135,19 +118,20 @@ struct AllAccessGalleryGrid: View {
                     .padding(.top, 8)
                     .padding(.bottom, 5)
                     
-//                    if viewModel.selectedPhoto != nil {
-//                        AsyncImage(url: viewModel.selectedPhoto?.url) { image in
-//                            image
-//                                .resizable()
-//                                .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
-//                                .frame(width: 343, height: 343)
-//                                .cornerRadius(16)
-//                                .padding(.bottom, 18)
-//
-//                        } placeholder: {
-//                            ProgressView()
-//                        }
-//                    }
+                    PhotoItemView(asset: asset, cache: photoCollection.cache, imageSize: Self.previewImageSize)
+                        .frame(width: Self.previewImageSize.width, height: Self.previewImageSize.height)
+                        .clipped()
+                        .onAppear {
+                            Task {
+                                await photoCollection.cache.startCaching(for: [asset], targetSize: Self.previewImageSize)
+                            }
+                        }
+                        .onDisappear {
+                            Task {
+                                await photoCollection.cache.stopCaching(for: [asset], targetSize: Self.previewImageSize)
+                            }
+                        }
+                    
                     
                     NavigationLink(destination: EditorScreenView(), label: {
                         Text("Process Image")
@@ -168,13 +152,14 @@ struct AllAccessGalleryGrid: View {
                     NativeAdView()
                         .frame(minWidth: UIScreen.main.bounds.width, minHeight: 60)
                 }
-                .background(Color(red: 30/255, green: 32/255, blue: 39/255))
-                .presentationDetents(
-                    [.height(UIScreen.main.bounds.height * 0.71)],
-                    selection: $settingsDetent
-                )
+                
             }
-        }
+            .background(Color(red: 30/255, green: 32/255, blue: 39/255))
+            .presentationDetents(
+                [.height(UIScreen.main.bounds.height * 0.71)],
+                selection: $settingsDetent
+            )
+        })
         
     }
     
@@ -200,7 +185,7 @@ struct AllAccessGalleryGrid: View {
 struct AllAccessGalleryGrid_Previews: PreviewProvider {
     static var previews: some View {
 //        if let url = Bundle.main.url(forResource: "grizzly", withExtension: "jpg") {
-////            GridItemView(size: 50, item: Item(url: url))
+//            GridItemView(size: 50, item: Item(url: url))
 //
         AllAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum: .smartAlbumUserLibrary))
 //

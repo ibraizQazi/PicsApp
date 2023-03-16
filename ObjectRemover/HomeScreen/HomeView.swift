@@ -11,25 +11,24 @@ import Photos
 
 struct HomeView: View {
    
-//    @EnvironmentObject var photosModel: PhotosModel
+//    @StateObject var photosModel = PhotoCollection()
     
     @State private var photos: [PhotoItem] = [PhotoItem(image: Image("ic-import"))]
     
-    
-    @State private var showPhotoSheet = false
-    @State private var showPreviewSheet = false
+//    @State private var showPhotoSheet = false
+//    @State private var showPreviewSheet = false
     @State private var image: UIImage? = nil
     @State private var isPermissionGiven = false
     @State private var isFullAccessGiven = false
-    @State private var isDenied = false
-    
-    @State private var settingsDetent = PresentationDetent.medium
-
-    private let columns: [GridItem] = [
-        GridItem(.fixed(110), spacing: 4.5),
-        GridItem(.fixed(110), spacing: 4.5),
-        GridItem(.fixed(110), spacing: 4.5)
-    ]
+//    @State private var isDenied = false
+//
+//    @State private var settingsDetent = PresentationDetent.medium
+//
+//    private let columns: [GridItem] = [
+//        GridItem(.fixed(110), spacing: 4.5),
+//        GridItem(.fixed(110), spacing: 4.5),
+//        GridItem(.fixed(110), spacing: 4.5)
+//    ]
     
     var body: some View {
         
@@ -38,13 +37,9 @@ struct HomeView: View {
             if isPermissionGiven {
                 
                 if isFullAccessGiven {
-
                     AllAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum:.smartAlbumUserLibrary))
-                    
                 } else {
-                    
-                    PartialAccessGalleryGrid(viewModel: PartialAccessViewModel())
-
+                    PartialAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum: .smartAlbumRecentlyAdded))
                 }
                 
             } else {
@@ -67,7 +62,7 @@ struct HomeView: View {
                                     // The user explicitly denied this app's access.
                                     isPermissionGiven = false
                                     isFullAccessGiven = false
-                                    isDenied = true
+//                                    isDenied = true
                                 case .authorized:
                                     // The user authorized this app to access Photos data.
                                     isPermissionGiven = true
