@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct PicEditAppApp: App {
+struct PicEditApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
