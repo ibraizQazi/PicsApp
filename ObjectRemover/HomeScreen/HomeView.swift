@@ -33,63 +33,42 @@ struct HomeView: View {
     var body: some View {
         
         VStack {
-            
-            if isPermissionGiven {
-                
-                if isFullAccessGiven {
-                    AllAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum:.smartAlbumUserLibrary))
-                } else {
-                    PartialAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum: .smartAlbumRecentlyAdded))
-                }
-                
-            } else {
 
-                VStack {
-                    
-                    PhotoAccessView(openPermissions: {
-                        
-                        PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
-                            switch status {
-                                case .notDetermined:
-                                    // The user hasn't determined this app's access.
-                                    isPermissionGiven = false
-                                    isFullAccessGiven = false
-                                case .restricted:
-                                    // The system restricted this app's access.
-                                    isPermissionGiven = true
-                                    isFullAccessGiven = false
-                                case .denied:
-                                    // The user explicitly denied this app's access.
-                                    isPermissionGiven = false
-                                    isFullAccessGiven = false
-//                                    isDenied = true
-                                case .authorized:
-                                    // The user authorized this app to access Photos data.
-                                    isPermissionGiven = true
-                                    isFullAccessGiven = true
-                                case .limited:
-                                    // The user authorized this app for limited Photos access.
-                                    isPermissionGiven = true
-                                    isFullAccessGiven = false
-                            @unknown default:
-                                fatalError()
-                            }
-                        }
-                    })
-                    .frame(width: 343, height: 587)
-                    .padding(.horizontal, 16)
-                    .background(Color(red:11/255,green:12/255,blue:17/255))
-                    
-                    NativeAdView()
-                        .frame(minWidth: 100, maxWidth: .infinity, minHeight: 114, maxHeight: 114)
-                        .padding(.top, 0)
-                        .padding(.bottom, 100)
-                    
-                }
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            PhotoAccessView(openPermissions: {
 
-            }
-            
+                PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+                    switch status {
+                        case .notDetermined:
+                            // The user hasn't determined this app's access.
+                            isPermissionGiven = false
+                            isFullAccessGiven = false
+                        case .restricted:
+                            // The system restricted this app's access.
+                            navigationStateManager.goToPartialGallery()
+                        case .denied:
+                            // The user explicitly denied this app's access.
+                            isPermissionGiven = false
+                            isFullAccessGiven = false
+                        case .authorized:
+                            // The user authorized this app to access Photos data.
+                            navigationStateManager.goToAllAccessGallery()
+                        case .limited:
+                            // The user authorized this app for limited Photos access.
+                            navigationStateManager.goToPartialGallery()
+                    @unknown default:
+                        fatalError()
+                    }
+                }
+            })
+            .frame(width: 343, height: 587)
+            .padding(.horizontal, 16)
+            .background(Color(red:11/255,green:12/255,blue:17/255))
+
+            NativeAdView()
+                .frame(minWidth: 100, maxWidth: .infinity, minHeight: 114, maxHeight: 114)
+                .padding(.top, 0)
+                .padding(.bottom, 100)
+
         }
         .onAppear {
             
