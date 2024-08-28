@@ -12,7 +12,7 @@ struct PartialAccessGalleryGrid: View {
     @ObservedObject var photoCollection : PhotoCollection
 
     @Environment(\.displayScale) private var displayScale
-    @State var previewAsset: PhotoAsset?
+    @Binding var previewAsset: PhotoAsset?
     @State private var showPhotoSheet = false
     @State private var settingsDetent = PresentationDetent.medium
 
@@ -60,7 +60,7 @@ struct PartialAccessGalleryGrid: View {
                     
                 }
                 .clipped()
-                .offset(x: 0, y: -40)
+                .offset(x: 0, y: 100)
                 .ignoresSafeArea(edges: .bottom)
                 
                 
@@ -85,7 +85,7 @@ struct PartialAccessGalleryGrid: View {
                     }
                 }
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .topLeading)
-                .offset(x: 0, y: -40)
+                .offset(x: 0, y: 40)
                 .ignoresSafeArea(edges: .bottom)
             }
             
@@ -100,75 +100,75 @@ struct PartialAccessGalleryGrid: View {
         .fullScreenCover(isPresented: $showPhotoSheet) {
             PhotoPicker(photoCollection: photoCollection)
         }
-        .sheet(item: $previewAsset, content: { asset in
-            NavigationView {
-                VStack {
-                    
-                    HStack {
-                        
-                        Spacer(minLength: 300)
-                        
-                        Button(action: {
-                            print("close preview sheet")
-                            previewAsset = nil
-                        }) {
-                            Image("ic-white-cross")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 18, height: 18)
-                                .contentShape(Rectangle())
-                        }
-                        .frame(width: 44, height: 44)
-                        
-                    }
-                    .padding(.trailing, 8)
-                    .padding(.top, 8)
-                    .padding(.bottom, 5)
-
-                    PhotoItemView(asset: asset, cache: photoCollection.cache, imageSize: Self.previewImageSize)
-                        .frame(width: Self.previewImageSize.width, height: Self.previewImageSize.height)
-                        .clipped()
-                        .onAppear {
-                            Task {
-                                await photoCollection.cache.startCaching(for: [asset], targetSize: Self.previewImageSize)
-                            }
-                        }
-                        .onDisappear {
-                            Task {
-                                await photoCollection.cache.stopCaching(for: [asset], targetSize: Self.previewImageSize)
-                            }
-                        }
-                    
-                    
-                    NavigationLink(destination: EditorScreenView(), label: {
-                        Text("Process Image")
-                            .font(.custom("Gilroy-SemiBold", size: 17))
-                            .frame(width: 343, height: 45)
-                            .background(
-                                LinearGradient(
-                                    colors: [Color(red: 179/255, green: 1, blue: 171/255), Color(red: 18/255, green: 1, blue: 247/255)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ))
-                            .foregroundColor(.black)
-                            .cornerRadius(16)
-                    })
-                    .navigationBarBackButtonHidden()
-//                    .navigationBarHidden(true)
-                    
-                    Spacer(minLength: 28)
-                    
-                    NativeAdView()
-                        .frame(minWidth: UIScreen.main.bounds.width, minHeight: 60)
-                }
-                
-            }
-            .background(Color(red: 30/255, green: 32/255, blue: 39/255))
-            .presentationDetents(
-                [.height(UIScreen.main.bounds.height * 0.71)],
-                selection: $settingsDetent
-            )
-        })
+//        .sheet(item: $previewAsset, content: { asset in
+//            NavigationView {
+//                VStack {
+//                    
+//                    HStack {
+//                        
+//                        Spacer(minLength: 300)
+//                        
+//                        Button(action: {
+//                            print("close preview sheet")
+//                            previewAsset = nil
+//                        }) {
+//                            Image("ic-white-cross")
+//                                .resizable()
+//                                .scaledToFill()
+//                                .frame(width: 18, height: 18)
+//                                .contentShape(Rectangle())
+//                        }
+//                        .frame(width: 44, height: 44)
+//                        
+//                    }
+//                    .padding(.trailing, 8)
+//                    .padding(.top, 8)
+//                    .padding(.bottom, 5)
+//
+//                    PhotoItemView(asset: asset, cache: photoCollection.cache, imageSize: Self.previewImageSize)
+//                        .frame(width: Self.previewImageSize.width, height: Self.previewImageSize.height)
+//                        .clipped()
+//                        .onAppear {
+//                            Task {
+//                                await photoCollection.cache.startCaching(for: [asset], targetSize: Self.previewImageSize)
+//                            }
+//                        }
+//                        .onDisappear {
+//                            Task {
+//                                await photoCollection.cache.stopCaching(for: [asset], targetSize: Self.previewImageSize)
+//                            }
+//                        }
+//                    
+//                    
+//                    NavigationLink(destination: EditorScreenView(), label: {
+//                        Text("Process Image")
+//                            .font(.custom("Gilroy-SemiBold", size: 17))
+//                            .frame(width: 343, height: 45)
+//                            .background(
+//                                LinearGradient(
+//                                    colors: [Color(red: 179/255, green: 1, blue: 171/255), Color(red: 18/255, green: 1, blue: 247/255)],
+//                                    startPoint: .topLeading,
+//                                    endPoint: .bottomTrailing
+//                                ))
+//                            .foregroundColor(.black)
+//                            .cornerRadius(16)
+//                    })
+//                    .navigationBarBackButtonHidden()
+////                    .navigationBarHidden(true)
+//                    
+//                    Spacer(minLength: 28)
+//                    
+//                    NativeAdView()
+//                        .frame(minWidth: UIScreen.main.bounds.width, minHeight: 60)
+//                }
+//                
+//            }
+//            .background(Color(red: 30/255, green: 32/255, blue: 39/255))
+//            .presentationDetents(
+//                [.height(UIScreen.main.bounds.height * 0.71)],
+//                selection: $settingsDetent
+//            )
+//        })
     }
     
     
@@ -193,7 +193,7 @@ struct PartialAccessGalleryGrid: View {
 struct PartialAccessGalleryGrid_Previews: PreviewProvider {
     static var previews: some View {
 //        if let url = Bundle.main.url(forResource: "grizzly", withExtension: "jpg") {
-        PartialAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum: .smartAlbumUserLibrary))
+        PartialAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum: .smartAlbumUserLibrary), previewAsset: .constant(nil))
 //        }
     }
 }

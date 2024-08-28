@@ -22,7 +22,7 @@ struct EditorView: View {
     @State private var showConfirmation: Bool = false
    
     @State var binaryImage: Data?
-    @State var originalImage: UIImage = UIImage(named: "grizzly")!
+    @State var testImage: UIImage = UIImage(named: "grizzly")!
     
     @GestureState private var scaleState: CGFloat = 1
     @GestureState private var offsetState = CGSize.zero
@@ -56,7 +56,7 @@ struct EditorView: View {
             .onChanged({ value in
                 let newPoint = value.location
                 if value.translation.width + value.translation.height == 0 {
-                    //TODO: use selected color and linewidth
+                    //TODO: use selected color and line width
                     lines.append(Line(points: [newPoint],
                                       color: selectedColor, lineWidth: selectedLineWidth))
                 } else {
@@ -76,7 +76,7 @@ struct EditorView: View {
     var body: some View {
         GeometryReader { geo in
             
-            let orgImage = Image(uiImage: originalImage)
+            let orgImage = Image(uiImage: testImage)
             
             
             VStack {
@@ -85,7 +85,7 @@ struct EditorView: View {
                     ColorPicker("line color", selection: $selectedColor)
                         .labelsHidden()
                     Slider(value: $selectedLineWidth, in: 10...100) {
-                        Text("linewidth")
+                        Text("line width")
                     }.frame(maxWidth: 100)
                     Text(String(format: "%.0f", selectedLineWidth))
                     
@@ -147,7 +147,7 @@ struct EditorView: View {
 
                             print("canvas size: \(size.width) , \(size.height)")
                             
-                            let assetSize = getScaledImageSize(originalSize: originalImage.size, targetSize: size)
+                            let assetSize = getScaledImageSize(originalSize: testImage.size, targetSize: size)
                                                     
                             context.draw(orgImage, in: CGRect(origin: .zero, size: assetSize))
                             
@@ -160,7 +160,7 @@ struct EditorView: View {
                             }
                         }
 //                        .scaleEffect(scale)
-                        .zoomable(scale: $scale, offset: $dragOffset)
+//                        .zoomable(scale: $scale, offset: $dragOffset)
 //                        .offset(x: dragOffset.width + offsetState.width, y: dragOffset.height + offsetState.height)
                         .clipped()
                         .frame(width: geo.size.width, height: geo.size.height)

@@ -67,9 +67,9 @@ class PhotoCollection: NSObject, ObservableObject {
         PHPhotoLibrary.shared().unregisterChangeObserver(self)
     }
     
-    func loadPhotos() async {
+    func loadPhotos(smartAlbum smartAlbumType: PHAssetCollectionSubtype = .smartAlbumRecentlyAdded) async {
         guard !isPhotosLoaded else { return }
-        
+        self.smartAlbumType = smartAlbumType
 //        let authorized = await PhotoLibrary.checkAuthorization()
 //        guard authorized else {
 //            logger.error("Photo library access was not authorized.")

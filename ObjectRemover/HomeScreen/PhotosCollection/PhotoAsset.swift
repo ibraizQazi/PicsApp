@@ -9,7 +9,7 @@
 import Photos
 import os.log
 
-struct PhotoAsset: Identifiable {
+struct PhotoAsset: Identifiable, Codable {
     var id: String { identifier }
     var identifier: String = UUID().uuidString
     var index: Int?
@@ -65,6 +65,25 @@ struct PhotoAsset: Identifiable {
         } catch (let error) {
             logger.error("Failed to delete photo: \(error.localizedDescription)")
         }
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case identifier, index, isFavorite, mediaType, accessibilityLabel
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.identifier = try container.decode(String.self, forKey: .identifier)
+        self.index = try container.decodeIfPresent(Int.self, forKey: .index)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(identifier, forKey: .identifier)
+        try container.encode(index, forKey: .index)
+        try container.encode(isFavorite, forKey: .isFavorite)
+        try container.encode(mediaType.rawValue, forKey: .mediaType)
+        try container.encode(accessibilityLabel, forKey: .accessibilityLabel)
     }
 }
 

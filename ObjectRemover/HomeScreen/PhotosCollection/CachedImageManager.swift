@@ -88,5 +88,5 @@ actor CachedImageManager {
     }
 }
 
-fileprivate let logger = Logger(subsystem: "com.apple.swiftplaygroundscontent.capturingphotos", category: "CachedImageManager")
+fileprivate let logger = Logger(subsystem: "com.trinium.ai.snaperaser", category: "CachedImageManager")
 

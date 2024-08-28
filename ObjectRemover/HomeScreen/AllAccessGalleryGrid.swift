@@ -10,15 +10,14 @@ import Photos
 
 struct AllAccessGalleryGrid: View {
     
+    @Environment(\.displayScale) private var displayScale
     @ObservedObject var photoCollection : PhotoCollection
     
-    @State private var showPreviewSheet = false
-    @State var previewAsset: PhotoAsset?
+    @Binding var previewAsset: PhotoAsset?
     @State private var showPhotoSheet = false
+    
     @State private var settingsDetent = PresentationDetent.medium
-
-    @Environment(\.displayScale) private var displayScale
-
+    
     private static let itemSpacing = 4.5
     private static let itemCornerRadius = 10.0
     private static let itemSize = CGSize(width: 110, height: 110)
@@ -73,93 +72,95 @@ struct AllAccessGalleryGrid: View {
                             }
                             .contentShape(Rectangle())
                     }
-                    
                 }
+               
             }
             .clipped()
             .background(Color(red: 0.12, green: 0.13, blue: 0.15))
-//            .offset(x: 0, y: -40)
+            .offset(x: 0, y: 100)
             .cornerRadius(24, corners: [.topLeft, .topRight])
             .ignoresSafeArea(edges: .bottom)
             
             NativeAdView()
                 .frame(width: UIScreen.main.bounds.width, height: 114, alignment: .bottom)
                 .padding(.bottom, 46)
+            
         }
         .task {
-            await photoCollection.loadPhotos()
+            await photoCollection.loadPhotos(smartAlbum: .smartAlbumUserLibrary)
         }
         .background(Color(red:0.04, green:0.05, blue:0.07))
         .fullScreenCover(isPresented: $showPhotoSheet) {
             PhotoPicker(photoCollection: photoCollection)
         }
-        .sheet(item: $previewAsset, content: { asset in
-            NavigationView {
-                VStack {
-                    
-                    HStack {
-                        
-                        Spacer(minLength: 300)
-                        
-                        Button(action: {
-                            print("close preview sheet")
-                            previewAsset = nil
-                        }) {
-                            Image("ic-white-cross")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 18, height: 18)
-                                .contentShape(Rectangle())
-                        }
-                        .frame(width: 44, height: 44)
-                        
-                    }
-                    .padding(.trailing, 8)
-                    .padding(.top, 8)
-                    .padding(.bottom, 5)
-                    
-                    PhotoItemView(asset: asset, cache: photoCollection.cache, imageSize: Self.previewImageSize)
-                        .frame(width: Self.previewImageSize.width, height: Self.previewImageSize.height)
-                        .clipped()
-                        .onAppear {
-                            Task {
-                                await photoCollection.cache.startCaching(for: [asset], targetSize: Self.previewImageSize)
-                            }
-                        }
-                        .onDisappear {
-                            Task {
-                                await photoCollection.cache.stopCaching(for: [asset], targetSize: Self.previewImageSize)
-                            }
-                        }
-                    
-                    
-                    NavigationLink(destination: EditorScreenView(), label: {
-                        Text("Process Image")
-                            .font(.custom("Gilroy-SemiBold", size: 17))
-                            .frame(width: 343, height: 45)
-                            .background(
-                                LinearGradient(
-                                    colors: [Color(red: 179/255, green: 1, blue: 171/255), Color(red: 18/255, green: 1, blue: 247/255)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ))
-                            .foregroundColor(.black)
-                            .cornerRadius(16)
-                    })
-                    
-                    Spacer(minLength: 28)
-                    
-                    NativeAdView()
-                        .frame(minWidth: UIScreen.main.bounds.width, minHeight: 60)
-                }
-                
-            }
-            .background(Color(red: 30/255, green: 32/255, blue: 39/255))
-            .presentationDetents(
-                [.height(UIScreen.main.bounds.height * 0.71)],
-                selection: $settingsDetent
-            )
-        })
+//        .sheet(item: $previewAsset, content: { asset in
+//            VStack {
+//                
+//                HStack {
+//                    
+//                    Spacer(minLength: 300)
+//                    
+//                    Button(action: {
+//                        print("close preview sheet")
+//                        previewAsset = nil
+//                    }) {
+//                        Image("ic-white-cross")
+//                            .resizable()
+//                            .scaledToFill()
+//                            .frame(width: 18, height: 18)
+//                            .contentShape(Rectangle())
+//                    }
+//                    .frame(width: 44, height: 44)
+//                    
+//                }
+//                .padding(.trailing, 8)
+//                .padding(.top, 8)
+//                .padding(.bottom, 5)
+//                
+//                PhotoItemView(asset: asset, cache: photoCollection.cache, imageSize: Self.previewImageSize)
+//                    .frame(width: Self.previewImageSize.width, height: Self.previewImageSize.height)
+//                    .clipped()
+//                    .onAppear {
+//                        Task {
+//                            await photoCollection.cache.startCaching(for: [asset], targetSize: Self.previewImageSize)
+//                        }
+//                    }
+//                    .onDisappear {
+//                        Task {
+//                            await photoCollection.cache.stopCaching(for: [asset], targetSize: Self.previewImageSize)
+//                        }
+//                    }
+//                
+//                Button(action: {
+////                    if previewAsset != nil {
+////                        photoAsset = previewAsset
+////                        previewAsset = nil
+////                    }
+//                } , label: {
+//                    Text("Process Image")
+//                        .font(.custom("Gilroy-SemiBold", size: 17))
+//                        .frame(width: 343, height: 45)
+//                        .background(
+//                            LinearGradient(
+//                                colors: [Color(red: 179/255, green: 1, blue: 171/255), Color(red: 18/255, green: 1, blue: 247/255)],
+//                                startPoint: .topLeading,
+//                                endPoint: .bottomTrailing
+//                            ))
+//                        .foregroundColor(.black)
+//                        .cornerRadius(16)
+//                })
+//                
+//                Spacer(minLength: 28)
+//                
+//                NativeAdView()
+//                    .frame(minWidth: UIScreen.main.bounds.width, minHeight: 60)
+//            }
+//            .background(Color(red: 30/255, green: 32/255, blue: 39/255))
+//            .presentationDetents(
+//                [.height(UIScreen.main.bounds.height * 0.71)],
+//                selection: $settingsDetent
+//            )
+//        })
         
     }
     
@@ -187,7 +188,7 @@ struct AllAccessGalleryGrid_Previews: PreviewProvider {
 //        if let url = Bundle.main.url(forResource: "grizzly", withExtension: "jpg") {
 //            GridItemView(size: 50, item: Item(url: url))
 //
-        AllAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum: .smartAlbumUserLibrary))
+        AllAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum: .smartAlbumUserLibrary), previewAsset: .constant(nil))
 //
 //        }
     }

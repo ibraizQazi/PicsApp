@@ -55,7 +55,7 @@ class PhotosModel: ObservableObject {
             case .authorized:
                 self.errorString = ""
                 self.fetchFirstPhotos()
-            case .limited, .restricted, .notDetermined:
+            case .limited, .restricted:
                 if let documentDirectory = FileManager.default.documentDirectory {
                     let urls = FileManager.default.getContentsOfDirectory(documentDirectory).filter { $0.isImage }
                     for url in urls {
@@ -65,8 +65,8 @@ class PhotosModel: ObservableObject {
                 }
             case .denied:
                 self.errorString = "Photo access permission denied"
-//            case .notDetermined:
-//                self.errorString = "Photo access permission not determined"
+            case .notDetermined:
+                self.errorString = "Photo access permission not determined"
             @unknown default:
                 fatalError()
             }

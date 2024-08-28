@@ -8,24 +8,22 @@
 import SwiftUI
 
 struct SplashScreen: View {
+
     @State private var isActive: Bool = false
-    let homeView = HomeView()
+    
     var body: some View {
         
-        NavigationView {
+        VStack {
   
                 if self.isActive {
                     HomeView()
-//                    EditorScreenView()
-//                    ShareScreenView()
-//                    IAPScreen()
-//                    EditorView()
                 } else {
                     VStack {
                         
                         Spacer(minLength: 250)
                         
                         VStack {
+                            
                             Image("splash-icon")
                                 .resizable()
                                 .scaledToFit()
@@ -61,6 +59,7 @@ struct SplashScreen: View {
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     .background(.white)
                     .onAppear {
+                        //here load up model
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                             withAnimation {
                                 self.isActive = true

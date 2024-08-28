@@ -10,7 +10,7 @@ import SwiftUI
 struct EditorScreenView: View {
     
     @State private var isSaveActive = false
-    @State private var isPaintSelected = false
+    @State private var isPaintSelected = true
     @State private var isEraseSelected = false
     
     @State private var showDialog = false
@@ -93,7 +93,7 @@ struct EditorScreenView: View {
                     //brush ctrls
                     
                     HStack(spacing: 7) {
-                        // bursh btns
+                        // brush btns
                         Button(action: {
                             print("paint toggle")
                             isPaintSelected.toggle()

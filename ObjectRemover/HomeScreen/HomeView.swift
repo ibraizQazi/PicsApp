@@ -8,92 +8,91 @@
 import SwiftUI
 import PhotosUI
 import Photos
+import PermissionsSwiftUIPhoto
+import os.log
 
 struct HomeView: View {
    
-//    @StateObject var photosModel = PhotoCollection()
+    @StateObject var photosCollection = PhotoCollection(smartAlbum: .smartAlbumRecentlyAdded)
+        
+    @State var navigationStateManager = NavigationStateManager()
     
-    @State private var photos: [PhotoItem] = [PhotoItem(image: Image("ic-import"))]
+    @SceneStorage("navigationState") var navigationStateData: Data?
+
+    @State var previewAsset: PhotoAsset?
     
-//    @State private var showPhotoSheet = false
-//    @State private var showPreviewSheet = false
-    @State private var image: UIImage? = nil
-    @State private var isPermissionGiven = false
-    @State private var isFullAccessGiven = false
-//    @State private var isDenied = false
-//
-//    @State private var settingsDetent = PresentationDetent.medium
-//
-//    private let columns: [GridItem] = [
-//        GridItem(.fixed(110), spacing: 4.5),
-//        GridItem(.fixed(110), spacing: 4.5),
-//        GridItem(.fixed(110), spacing: 4.5)
-//    ]
+    @State var showModal = false
+    @State var showSettingAlert = false
+    
+    @State var photoPermission: PHAuthorizationStatus = .notDetermined
     
     var body: some View {
-        
-        VStack {
 
-            PhotoAccessView(openPermissions: {
-
-                PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
-                    switch status {
-                        case .notDetermined:
-                            // The user hasn't determined this app's access.
-                            isPermissionGiven = false
-                            isFullAccessGiven = false
-                        case .restricted:
-                            // The system restricted this app's access.
-                            navigationStateManager.goToPartialGallery()
-                        case .denied:
-                            // The user explicitly denied this app's access.
-                            isPermissionGiven = false
-                            isFullAccessGiven = false
-                        case .authorized:
-                            // The user authorized this app to access Photos data.
-                            navigationStateManager.goToAllAccessGallery()
-                        case .limited:
-                            // The user authorized this app for limited Photos access.
-                            navigationStateManager.goToPartialGallery()
-                    @unknown default:
-                        fatalError()
+        NavigationStack(path: $navigationStateManager.editorPath) {
+            
+            if photoPermission == .limited {
+                
+                PartialAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum: .smartAlbumRecentlyAdded), previewAsset: $previewAsset)
+                    .navigationDestination(for: EditorState.self) { state in
+                        switch state {
+                        case .remover(_):
+                            EditorView()
+                        case .cloner(_):
+                            EditorView()
+                        case .save:
+                            ShareScreenView()
+                        case .purchase:
+                            IAPScreen()
+                        }
                     }
-                }
-            })
-            .frame(width: 343, height: 587)
-            .padding(.horizontal, 16)
-            .background(Color(red:11/255,green:12/255,blue:17/255))
-
-            NativeAdView()
-                .frame(minWidth: 100, maxWidth: .infinity, minHeight: 114, maxHeight: 114)
-                .padding(.top, 0)
-                .padding(.bottom, 100)
-
-        }
-        .onAppear {
-            
-            let readWriteStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-            
-            switch readWriteStatus {
-                case .notDetermined:
-                    print("not determined")
-                    isPermissionGiven = false
-                case .restricted:
-                    print("restricted")
-                    isPermissionGiven = false
-                case .denied:
-                    print("denied")
-                    isPermissionGiven = false
-                case .authorized:
-                    print("authorized")
-                    isFullAccessGiven = true
-                    isPermissionGiven = true
-                case .limited:
-                    print("limited")
-                    isPermissionGiven = true
-                @unknown default:
-                    print("fatalError")
+                
+            } else if photoPermission == .authorized {
+                
+                AllAccessGalleryGrid(photoCollection: PhotoCollection(smartAlbum:.smartAlbumUserLibrary), previewAsset: $previewAsset)
+                    .navigationDestination(for: EditorState.self) { state in
+                        switch state {
+                        case .remover(_):
+//                        case .remover(let photoAsset):
+                            EditorView()
+                        case .cloner(_):
+                            EditorView()
+                        case .save:
+                            ShareScreenView()
+                        case .purchase:
+                            IAPScreen()
+                        }
+                    }
+                
+            } else {
+                
+                PhotoAccessView(openPermissions: {
+                    if photoPermission == .notDetermined {
+                        showModal.toggle()
+                        logger.debug("open permissions")
+                    } else if photoPermission == .denied {
+                        showSettingAlert.toggle()
+                        logger.debug("open settings")
+                    }
+                })
+                .JMModal(showModal: $showModal, for: [.photo], autoDismiss: true)
+                .frame(width: 343, height: 587)
+                .padding(.horizontal, 16)
+                .background(Color(red:11/255,green:12/255,blue:17/255))
+                
+                
+                NativeAdView()
+                    .frame(minWidth: 100, maxWidth: .infinity, minHeight: 114, maxHeight: 114)
+                    .padding(.top, 0)
+                    .padding(.bottom, 100)
             }
+            
+        }
+        .environmentObject(photosCollection)
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        .onAppear {
+            let perms = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+            photoPermission = perms
+            print("onAppear: permission = \(photoPermission)")
         }
         .background(Color(red: 0.04, green: 0.05, blue: 0.07))
         .toolbar {
@@ -110,6 +109,7 @@ struct HomeView: View {
                 
                 Button(action: {
                     print("PRO CTA")
+                    navigationStateManager.goToPurchase()
                 }) {
                     Text("PRO")
                         .font(.custom("Gilroy-Bold", size: 14))
@@ -136,6 +136,17 @@ struct HomeView: View {
         }
         .toolbarBackground(.black, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
+        .sheet(item: $previewAsset) { asset in
+            PreviewSheet(previewAsset: $previewAsset)
+        }
+        .alert(isPresented: $showSettingAlert) {
+            Alert (title: Text("Photo access required!"),
+                   message: Text("Go to Settings?"),
+                   primaryButton: .default(Text("Settings"), action: {
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            }),
+                   secondaryButton: .default(Text("Cancel")))
+        }
 //        .fullScreenCover(isPresented: $showPhotoSheet) {
 //            PhotoPicker(filter: .images, limit: 1) { results in
 //                PhotoPicker.convertToUIImageArray(fromResults: results) { (imagesOrNil, errorOrNil) in
@@ -155,76 +166,6 @@ struct HomeView: View {
             
 //            PhotoPicker()
 //        }
-//        .sheet(isPresented: $showPreviewSheet) {
-//
-//            NavigationView {
-//                VStack {
-//
-//                    HStack {
-//
-//                        Spacer(minLength: 300)
-//
-//                        Button(action: {
-//                            showPreviewSheet = false
-//                        }) {
-//                            Image("ic-white-cross")
-//                                .resizable()
-//                                .scaledToFill()
-//                                .frame(width: 18, height: 18)
-//                        }
-//                        .frame(width: 44, height: 44)
-//
-//                    }
-//                    .padding(.trailing, 8)
-//                    .padding(.top, 8)
-//                    .padding(.bottom, 5)
-//
-//                    if photosModel.selectedPhoto != nil {
-//
-//                        AsyncImage(url: photosModel.selectedPhoto?.url) { image in
-//                            image
-//                                .resizable()
-//                                .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
-//                                .frame(width: 343, height: 343)
-//                                .cornerRadius(16)
-//                                .padding(.bottom, 18)
-//
-//                        } placeholder: {
-//                            ProgressView()
-//                        }
-//
-//
-//                    } else {
-//                        Text("error")
-//                    }
-//
-//
-//                    NavigationLink(destination: EditorScreenView(), label: {
-//                        Text("Process Image")
-//                            .font(.custom("Gilroy-SemiBold", size: 17))
-//                            .frame(width: 343, height: 45)
-//                            .background(
-//                                LinearGradient(
-//                                    colors: [Color(red: 179/255, green: 1, blue: 171/255), Color(red: 18/255, green: 1, blue: 247/255)],
-//                                    startPoint: .topLeading,
-//                                    endPoint: .bottomTrailing
-//                                ))
-//                            .foregroundColor(.black)
-//                            .cornerRadius(16)
-//                    })
-//
-//                    Spacer(minLength: 28)
-//
-//                    NativeAdView()
-//                        .frame(minWidth: UIScreen.main.bounds.width, minHeight: 60)
-//                }
-//                .background(Color(red: 30/255, green: 32/255, blue: 39/255))
-//                .presentationDetents(
-//                    [.height(UIScreen.main.bounds.height * 0.71)],
-//                    selection: $settingsDetent
-//                )
-//            }
-//        }
 
     }
 }
@@ -237,3 +178,5 @@ struct HomeView_Previews: PreviewProvider {
         }
     }
 }
+
+fileprivate let logger = Logger(subsystem: "com.trinium.ai.snaperaser", category: "HomeView")
