@@ -13,6 +13,7 @@
 		12FBD2D6330A4D458A422322 /* ImageRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ED87DB27FD4B5248BB307B /* ImageRepositoryProtocol.swift */; };
 		130E3CCD784035CB82ABEA71 /* ShareContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB5F9BD380B58413293D02D4 /* ShareContainerView.swift */; };
 		21BA03B9074C6BF4D6E3C26C /* DummyAdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA7CC21C514B45898B7DBB /* DummyAdService.swift */; };
+		37A60B457C3C2ECC940A188E /* CloneStampTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD147F608038F7CE8EF6837 /* CloneStampTool.swift */; };
 		50CDB5BEBEC8A9AD138B9F18 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9E143D019F2D60FF9B50CF /* RootView.swift */; };
 		525ECE14CE370354762A80AE /* EditorCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E0B21DC362B5D16A216B6 /* EditorCanvasView.swift */; };
 		54E259D38BECFB5D531BE6DD /* SimplePhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4FC4151B27771EE4A8A86D /* SimplePhotoPicker.swift */; };
@@ -220,6 +221,7 @@
 		D8EFC3262495D08768F65A1E /* EditorContainerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EditorContainerView.swift; path = Features/Editor/Views/EditorContainerView.swift; sourceTree = "<group>"; };
 		D971A94FDB1419ABB4AC7B3E /* HomeCoordinator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HomeCoordinator.swift; path = Coordinators/HomeCoordinator.swift; sourceTree = "<group>"; };
 		DC174EBBF6D8F6F11C192D65 /* HomeContainerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HomeContainerView.swift; path = Features/Home/Views/HomeContainerView.swift; sourceTree = "<group>"; };
+		FDD147F608038F7CE8EF6837 /* CloneStampTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CloneStampTool.swift; path = Features/Editor/Tools/CloneStampTool.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +258,14 @@
 				2DF4760E8C06E38CFA9E63F2 /* Views */,
 			);
 			name = Home;
+			sourceTree = "<group>";
+		};
+		0C2E1CD3EB19D422A4601034 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				FDD147F608038F7CE8EF6837 /* CloneStampTool.swift */,
+			);
+			name = Tools;
 			sourceTree = "<group>";
 		};
 		23AB3624F717475A3D2103E5 /* Gestures */ = {
@@ -331,6 +341,7 @@
 				400E43904D1C486250620D0A /* Views */,
 				78E92C0025F7C043916D6C92 /* ViewModels */,
 				23AB3624F717475A3D2103E5 /* Gestures */,
+				0C2E1CD3EB19D422A4601034 /* Tools */,
 			);
 			name = Editor;
 			sourceTree = "<group>";
@@ -893,6 +904,7 @@
 				130E3CCD784035CB82ABEA71 /* ShareContainerView.swift in Sources */,
 				54E259D38BECFB5D531BE6DD /* SimplePhotoPicker.swift in Sources */,
 				F3E2F75976A3D2A1FC2EAE28 /* UnifiedGestureHandler.swift in Sources */,
+				37A60B457C3C2ECC940A188E /* CloneStampTool.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
