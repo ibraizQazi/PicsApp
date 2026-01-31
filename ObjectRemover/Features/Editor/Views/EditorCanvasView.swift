@@ -3,7 +3,7 @@
 //  ObjectRemover
 //
 //  Canvas view for drawing masks and displaying images.
-//  Integrates with UnifiedGestureHandler for touch handling.
+//  Uses UnifiedGestureHandler for touch handling.
 //
 
 import SwiftUI
@@ -14,9 +14,7 @@ struct EditorCanvasView: View {
     let selectedTool: EditorTool
     let brushSettings: BrushSettings
 
-    @State private var scale: CGFloat = 1.0
-    @State private var offset: CGSize = .zero
-    @State private var anchor: UnitPoint = .center
+    @StateObject private var gestureHandler = UnifiedGestureHandler()
 
     var body: some View {
         GeometryReader { geometry in
@@ -64,78 +62,73 @@ struct EditorCanvasView: View {
                         )
                     }
                 }
-                .scaleEffect(scale, anchor: anchor)
-                .offset(offset)
-                .gesture(drawGesture(in: geometry.size))
-                .gesture(zoomGesture)
-                .simultaneousGesture(panGesture)
+                .scaleEffect(gestureHandler.scale, anchor: gestureHandler.anchor)
+                .offset(gestureHandler.offset)
+
+                // Gesture overlay
+                UnifiedGestureOverlay(handler: gestureHandler)
 
                 // Clone source indicator (when in clone mode)
                 if selectedTool == .cloneStamp, let sourcePoint = viewModel.cloneSourcePoint {
                     CloneSourceIndicator(
                         point: sourcePoint,
                         size: brushSettings.size,
-                        scale: scale,
-                        offset: offset
+                        scale: gestureHandler.scale,
+                        offset: gestureHandler.offset
+                    )
+                }
+
+                // Clone source preview in corner
+                if selectedTool == .cloneStamp, viewModel.cloneSourcePoint != nil {
+                    CloneSourcePreview(
+                        sourcePoint: viewModel.cloneSourcePoint!,
+                        image: viewModel.currentImage ?? image,
+                        size: 80
                     )
                 }
             }
             .background(Color.black)
             .clipped()
         }
+        .onAppear {
+            setupGestureCallbacks()
+            updateGestureConfiguration()
+        }
+        .onChange(of: selectedTool) { _, newTool in
+            updateGestureConfiguration()
+        }
     }
 
-    // MARK: - Gestures
+    // MARK: - Gesture Setup
 
-    private func drawGesture(in size: CGSize) -> some Gesture {
-        DragGesture(minimumDistance: 0)
-            .onChanged { value in
-                // Only draw with single finger (no modifier keys)
-                let point = transformPoint(value.location, in: size)
-
-                if selectedTool == .cloneStamp && viewModel.cloneSourcePoint == nil {
-                    // In clone mode without source, this tap sets the source
-                    return
-                }
-
-                if value.translation == .zero {
-                    // New stroke started
-                    viewModel.startStroke(at: point, settings: brushSettings)
-                } else {
-                    viewModel.continueStroke(to: point)
-                }
+    private func setupGestureCallbacks() {
+        gestureHandler.onDrawingBegan = { point in
+            if selectedTool == .cloneStamp && viewModel.cloneSourcePoint == nil {
+                // First, set the source point
+                viewModel.setCloneSource(at: point)
+            } else {
+                viewModel.startStroke(at: point, settings: brushSettings)
             }
-            .onEnded { _ in
-                viewModel.endStroke()
+        }
+
+        gestureHandler.onDrawingMoved = { point in
+            viewModel.continueStroke(to: point)
+        }
+
+        gestureHandler.onDrawingEnded = {
+            viewModel.endStroke()
+        }
+
+        gestureHandler.onTap = { point in
+            if selectedTool == .cloneStamp {
+                viewModel.setCloneSource(at: point)
             }
+        }
     }
 
-    private var zoomGesture: some Gesture {
-        MagnificationGesture()
-            .onChanged { value in
-                scale = max(0.5, min(8.0, value))
-            }
-            .onEnded { value in
-                scale = max(0.5, min(8.0, value))
-            }
-    }
-
-    private var panGesture: some Gesture {
-        DragGesture(minimumDistance: 10)
-            .onChanged { value in
-                // Only pan with two fingers (simulated by checking if we're zoomed)
-                guard scale > 1.0 else { return }
-                offset = CGSize(
-                    width: value.translation.width,
-                    height: value.translation.height
-                )
-            }
-            .onEnded { value in
-                offset = CGSize(
-                    width: value.translation.width,
-                    height: value.translation.height
-                )
-            }
+    private func updateGestureConfiguration() {
+        gestureHandler.configuration.drawingEnabled = true
+        gestureHandler.enableTapForCloneSource(selectedTool == .cloneStamp)
     }
 
     // MARK: - Helper Methods
@@ -149,20 +142,6 @@ struct EditorCanvasView: View {
             width: originalSize.width * scaleFactor,
             height: originalSize.height * scaleFactor
         )
-    }
-
-    private func transformPoint(_ point: CGPoint, in size: CGSize) -> CGPoint {
-        // Transform screen point to image coordinates
-        let centerX = size.width / 2
-        let centerY = size.height / 2
-
-        let offsetX = point.x - offset.width
-        let offsetY = point.y - offset.height
-
-        let scaledX = centerX + (offsetX - centerX) / scale
-        let scaledY = centerY + (offsetY - centerY) / scale
-
-        return CGPoint(x: scaledX, y: scaledY)
     }
 
     private func createPath(for points: [CGPoint]) -> Path {
@@ -202,16 +181,92 @@ private struct CloneSourceIndicator: View {
     let offset: CGSize
 
     var body: some View {
-        Circle()
-            .stroke(Color.blue, lineWidth: 2)
-            .frame(width: size, height: size)
-            .position(x: point.x * scale + offset.width, y: point.y * scale + offset.height)
-            .overlay(
-                Image(systemName: "plus")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(.blue)
-                    .position(x: point.x * scale + offset.width, y: point.y * scale + offset.height)
+        ZStack {
+            // Crosshair circle
+            Circle()
+                .stroke(Color.cyan, lineWidth: 2)
+                .frame(width: size * scale, height: size * scale)
+                .position(
+                    x: point.x * scale + offset.width,
+                    y: point.y * scale + offset.height
+                )
+
+            // Center cross
+            Group {
+                Rectangle()
+                    .fill(Color.cyan)
+                    .frame(width: 2, height: 16)
+                Rectangle()
+                    .fill(Color.cyan)
+                    .frame(width: 16, height: 2)
+            }
+            .position(
+                x: point.x * scale + offset.width,
+                y: point.y * scale + offset.height
             )
+        }
+    }
+}
+
+// MARK: - Clone Source Preview
+
+private struct CloneSourcePreview: View {
+    let sourcePoint: CGPoint
+    let image: UIImage
+    let size: CGFloat
+
+    var body: some View {
+        VStack {
+            HStack {
+                Spacer()
+
+                ZStack {
+                    // Background
+                    Circle()
+                        .fill(Color.black.opacity(0.7))
+                        .frame(width: size + 8, height: size + 8)
+
+                    // Sampled region preview
+                    if let preview = extractPreview() {
+                        Image(uiImage: preview)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: size, height: size)
+                            .clipShape(Circle())
+                    } else {
+                        Circle()
+                            .fill(Color.gray.opacity(0.5))
+                            .frame(width: size, height: size)
+                    }
+
+                    // Border
+                    Circle()
+                        .stroke(Color.cyan, lineWidth: 2)
+                        .frame(width: size, height: size)
+                }
+                .padding(.trailing, 16)
+            }
+            .padding(.top, 16)
+
+            Spacer()
+        }
+    }
+
+    private func extractPreview() -> UIImage? {
+        let sampleSize: CGFloat = 60
+        let rect = CGRect(
+            x: sourcePoint.x - sampleSize / 2,
+            y: sourcePoint.y - sampleSize / 2,
+            width: sampleSize,
+            height: sampleSize
+        )
+
+        // Clamp to image bounds
+        let clampedRect = rect.intersection(CGRect(origin: .zero, size: image.size))
+        guard !clampedRect.isEmpty else { return nil }
+
+        guard let cgImage = image.cgImage?.cropping(to: clampedRect) else { return nil }
+        return UIImage(cgImage: cgImage)
     }
 }
 

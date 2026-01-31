@@ -102,6 +102,7 @@
 		E24902AC0572D10EC8EFED8F /* DummyObjectRemovalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873C05028FCF760E98B7AB8D /* DummyObjectRemovalService.swift */; };
 		F17CF3A44ED026E0A5B75CF6 /* EditorContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EFC3262495D08768F65A1E /* EditorContainerView.swift */; };
 		F2B03C18E0C96892221945EC /* HomeContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC174EBBF6D8F6F11C192D65 /* HomeContainerView.swift */; };
+		F3E2F75976A3D2A1FC2EAE28 /* UnifiedGestureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080390B2919260352FD8D22B /* UnifiedGestureHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,7 @@
 /* Begin PBXFileReference section */
 		00F9F4CBE2F36233F2BBE844 /* ShareCoordinator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ShareCoordinator.swift; path = Coordinators/ShareCoordinator.swift; sourceTree = "<group>"; };
 		0300243ABF977BFDFBC735AB /* UndoableActionProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UndoableActionProtocol.swift; path = Core/Protocols/UndoableActionProtocol.swift; sourceTree = "<group>"; };
+		080390B2919260352FD8D22B /* UnifiedGestureHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UnifiedGestureHandler.swift; path = Features/Editor/Gestures/UnifiedGestureHandler.swift; sourceTree = "<group>"; };
 		22FFB3A5C2FB333E6C7E4DA1 /* EditorCoordinator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EditorCoordinator.swift; path = Coordinators/EditorCoordinator.swift; sourceTree = "<group>"; };
 		2B97E5AC9DF87F9C85BC65B0 /* AdServiceProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AdServiceProtocol.swift; path = Core/Protocols/AdServiceProtocol.swift; sourceTree = "<group>"; };
 		2EEA7CC21C514B45898B7DBB /* DummyAdService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DummyAdService.swift; path = Core/Services/Ads/DummyAdService.swift; sourceTree = "<group>"; };
@@ -256,6 +258,14 @@
 			name = Home;
 			sourceTree = "<group>";
 		};
+		23AB3624F717475A3D2103E5 /* Gestures */ = {
+			isa = PBXGroup;
+			children = (
+				080390B2919260352FD8D22B /* UnifiedGestureHandler.swift */,
+			);
+			name = Gestures;
+			sourceTree = "<group>";
+		};
 		2DF4760E8C06E38CFA9E63F2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,6 +330,7 @@
 			children = (
 				400E43904D1C486250620D0A /* Views */,
 				78E92C0025F7C043916D6C92 /* ViewModels */,
+				23AB3624F717475A3D2103E5 /* Gestures */,
 			);
 			name = Editor;
 			sourceTree = "<group>";
@@ -881,6 +892,7 @@
 				6E6D67E340170ACBADEDD0E8 /* EditorViewModel.swift in Sources */,
 				130E3CCD784035CB82ABEA71 /* ShareContainerView.swift in Sources */,
 				54E259D38BECFB5D531BE6DD /* SimplePhotoPicker.swift in Sources */,
+				F3E2F75976A3D2A1FC2EAE28 /* UnifiedGestureHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
