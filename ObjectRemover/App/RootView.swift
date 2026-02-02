@@ -63,7 +63,10 @@ struct RootView: View {
     private func sheetView(for route: AppRoute) -> some View {
         switch route {
         case .iap:
-            IAPScreen()
+            if let iapCoordinator = coordinator.iapCoordinator {
+                IAPContainerView()
+                    .environmentObject(iapCoordinator)
+            }
         default:
             EmptyView()
         }

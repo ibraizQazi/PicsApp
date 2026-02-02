@@ -30,6 +30,11 @@ final class DependencyContainer: ObservableObject {
         DefaultImageRepository()
     }()
 
+    /// In-App Purchase service (dummy implementation, replaceable with StoreKit/RevenueCat)
+    lazy var iapService: IAPServiceProtocol = {
+        DummyIAPService()
+    }()
+
     // MARK: - Initialization
 
     init() {

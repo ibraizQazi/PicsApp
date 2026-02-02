@@ -54,6 +54,7 @@ final class AppCoordinator: ObservableObject {
     @Published private(set) var homeCoordinator: HomeCoordinator?
     @Published private(set) var editorCoordinator: EditorCoordinator?
     @Published private(set) var shareCoordinator: ShareCoordinator?
+    @Published private(set) var iapCoordinator: IAPCoordinator?
 
     // MARK: - Dependencies
 
@@ -122,11 +123,22 @@ final class AppCoordinator: ObservableObject {
     }
 
     func presentIAP() {
+        iapCoordinator = IAPCoordinator(
+            dependencyContainer: dependencyContainer,
+            onDismiss: { [weak self] in
+                self?.dismissIAP()
+            },
+            onPurchaseComplete: { [weak self] in
+                // Handle purchase completion (e.g., update UI, dismiss)
+                self?.dismissIAP()
+            }
+        )
         presentedSheet = .iap
     }
 
     func dismissIAP() {
         presentedSheet = nil
+        iapCoordinator = nil
     }
 
     private func dismissEditor() {

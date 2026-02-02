@@ -104,6 +104,10 @@
 		F17CF3A44ED026E0A5B75CF6 /* EditorContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EFC3262495D08768F65A1E /* EditorContainerView.swift */; };
 		F2B03C18E0C96892221945EC /* HomeContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC174EBBF6D8F6F11C192D65 /* HomeContainerView.swift */; };
 		F3E2F75976A3D2A1FC2EAE28 /* UnifiedGestureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080390B2919260352FD8D22B /* UnifiedGestureHandler.swift */; };
+		IAP001001001001001001A1 /* IAPServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = IAP001001001001001001B1 /* IAPServiceProtocol.swift */; };
+		IAP002002002002002002A2 /* DummyIAPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = IAP002002002002002002B2 /* DummyIAPService.swift */; };
+		IAP003003003003003003A3 /* IAPCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = IAP003003003003003003B3 /* IAPCoordinator.swift */; };
+		IAP004004004004004004A4 /* IAPContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = IAP004004004004004004B4 /* IAPContainerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,6 +226,10 @@
 		D971A94FDB1419ABB4AC7B3E /* HomeCoordinator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HomeCoordinator.swift; path = Coordinators/HomeCoordinator.swift; sourceTree = "<group>"; };
 		DC174EBBF6D8F6F11C192D65 /* HomeContainerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HomeContainerView.swift; path = Features/Home/Views/HomeContainerView.swift; sourceTree = "<group>"; };
 		FDD147F608038F7CE8EF6837 /* CloneStampTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CloneStampTool.swift; path = Features/Editor/Tools/CloneStampTool.swift; sourceTree = "<group>"; };
+		IAP001001001001001001B1 /* IAPServiceProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IAPServiceProtocol.swift; path = ObjectRemover/Core/Protocols/IAPServiceProtocol.swift; sourceTree = "<group>"; };
+		IAP002002002002002002B2 /* DummyIAPService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DummyIAPService.swift; path = ObjectRemover/Core/Services/IAP/DummyIAPService.swift; sourceTree = "<group>"; };
+		IAP003003003003003003B3 /* IAPCoordinator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IAPCoordinator.swift; path = ObjectRemover/Coordinators/IAPCoordinator.swift; sourceTree = "<group>"; };
+		IAP004004004004004004B4 /* IAPContainerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IAPContainerView.swift; path = ObjectRemover/Features/IAP/Views/IAPContainerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -905,6 +913,10 @@
 				54E259D38BECFB5D531BE6DD /* SimplePhotoPicker.swift in Sources */,
 				F3E2F75976A3D2A1FC2EAE28 /* UnifiedGestureHandler.swift in Sources */,
 				37A60B457C3C2ECC940A188E /* CloneStampTool.swift in Sources */,
+				IAP001001001001001001A1 /* IAPServiceProtocol.swift in Sources */,
+				IAP002002002002002002A2 /* DummyIAPService.swift in Sources */,
+				IAP003003003003003003A3 /* IAPCoordinator.swift in Sources */,
+				IAP004004004004004004A4 /* IAPContainerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
